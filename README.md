@@ -1,2 +1,2 @@
 # lambton
-Lambton College Actives 
+Lambton College Activities 

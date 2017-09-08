@@ -136,20 +136,20 @@ CREATE TABLE Manufacturers (
 );
 
 CREATE TABLE Products (
-	Code integer(3) PRIMARY KEY,
-	Name VARCHAR(50) NOT NULL,
-	Price decimal(4,2) NOT NULL,
-	Manufacturer integer(3),
-	FOREIGN KEY (Manufacturer)
-	REFERENCES Manufacturers(Code)
-);
+ Code INTEGER,
+ Name VARCHAR(255) NOT NULL ,
+ Price DECIMAL NOT NULL ,
+ Manufacturer INTEGER NOT NULL,
+ PRIMARY KEY (Code),
+ FOREIGN KEY (Manufacturer) REFERENCES Manufacturers(Code)
+) ;
 
 -- or
 
 CREATE TABLE Products (
 	Code integer(3) PRIMARY KEY,
 	Name VARCHAR(50) NOT NULL,
-	Price decimal(4,2) NOT NULL,
+	Price DECIMAL NOT NULL,
 	Manufacturer integer(3));
 	
 ALTER TABLE Products 

@@ -177,3 +177,26 @@ INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(7,'CD drive',90,2);
 INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(8,'Printer',270,3);
 INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(9,'Toner cartridge',66,3);
 INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(10,'DVD burner',180,2);
+
+-- Group by
+SELECT name, COUNT(name) FROM products GROUP BY name;
+SELECT manufacturer, COUNT(*), AVG(price) FROM products GROUP BY manufacturer;
+
+-- Having
+SELECT manufacturer, COUNT(*), AVG(price) FROM products GROUP BY manufacturer HAVING AVG(price) > 200;
+SELECT manufacturer, COUNT(*), AVG(price) FROM products GROUP BY manufacturer WHERE HAVING AVG(price) > 200 AND manufacturer = 1;
+SELECT name, manufacturer, COUNT(*), AVG(price) FROM products GROUP BY manufacturer HAVING AVG(price) > 200 AND name LIKE '%drive%';
+
+-- Select into
+SELECT name FROM products WHERE code=1 INTO @a;
+SELECT @foo := name FROM products WHERE code =1;
+SELECT * FROM products INTO outfile 'C:/Users/711561/Downloads/output.sql';
+
+-- Union must have the same number of columns
+SELECT name FROM products UNION SELECT code FROM manufacturers;
+
+-- Subselect
+SELECT name FROM manufacturers WHERE code IN (SELECT manufacturer FROM products WHERE price > 200);
+SELECT name FROM manufacturers WHERE code IN (SELECT manufacturer FROM products WHERE name LIKE '%drive%');
+
+

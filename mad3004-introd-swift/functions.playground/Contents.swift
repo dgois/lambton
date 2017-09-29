@@ -154,6 +154,17 @@ func parseArray(arrayAsString :String) -> [Int] {
     }
     return intArray
 }
+
+func parseArrayVersion2(arrayAsString: String) -> [Int] {
+    var intArray = [Int]()
+    arrayAsString.components(separatedBy: " ").forEach{ c in
+        if let n = Int(c) {
+        intArray.append(n)
+        }
+    }
+    return intArray
+}
+parseArrayVersion2(arrayAsString: S)
 print(parseArray(arrayAsString: S))
 
 //functions type (Int, Int) -> Int

@@ -1,5 +1,6 @@
 //: Playground - noun: a place where people can play
 
+// Methods and Properties
 class Student {
     let x = 100
     var id :Int = 0
@@ -64,3 +65,60 @@ s1.displayData()
 
 
 //print(type(of: s1))
+
+
+// Constructor and Destructor
+class Employee {
+    var eid :Int?
+    var ename :String?
+    var salary :Double?
+    
+    //Default Constructor
+    init() {
+        eid = 0
+        ename = String()
+        salary = 0.0
+    }
+    
+    //Parametrize Constructor
+    init(employeeId eid :Int, employeeName ename :String, employeeSalary salary :Double) {
+        self.eid = eid
+        self.ename = ename
+        self.salary = salary
+    }
+    
+    convenience init(emp :Employee) {
+        self.init(
+            employeeId: emp.eid!,
+            employeeName: emp.ename!,
+            employeeSalary: emp.salary!)
+    }
+    
+    //Destructor
+    deinit {
+        print("Employee object destroyed. Employee id \(eid)")
+    }
+    
+    func display() {
+        print(self.eid!, self.ename!, self.salary!)
+    }
+    
+}
+
+var e1 = Employee()
+print(e1.eid, e1.ename, e1.salary)
+e1.display()
+
+var e2 = Employee(employeeId: 1, employeeName: "Denis Gois", employeeSalary: 5000.0)
+e2.display()
+
+e1 = e2
+
+// All types are structs and not classes
+/*
+var eid = Int()
+var gender = Bool()
+var enm = String()
+var salary = Double()
+print(eid, gender, enm, salary)
+*/

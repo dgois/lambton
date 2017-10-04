@@ -9,6 +9,10 @@ class Student {
     init(name: String) {
         self.name = name
     }
+    
+    func getStudentInformation() -> String {
+        return "Student: \(name) Course: \(course?.name)" 
+    }
 }
 
 class Course {
@@ -47,3 +51,10 @@ if student.course?.subject?.printSubjectDetails() != nil {
 } else {
     print("It was not possible to print")
 }
+
+//Output : It was not possible to print
+
+var m = student.course?.subject?.marks
+print(type(of: m))
+
+//Output : Optional<Int>

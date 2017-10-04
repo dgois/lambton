@@ -1,6 +1,5 @@
 //: Playground - noun: a place where people can play
 
-import UIKit
 
 class Student {
     var name :String
@@ -11,16 +10,26 @@ class Student {
     }
     
     func getStudentInformation() -> String {
-        return "Student: \(name) Course: \(course?.name)" 
+        return "Student: \(name) Course: \(course?.name ?? "Student does not have course")" 
     }
 }
 
 class Course {
     var name :String
     var subject :Subject?
+	var	subjectHistory = [Subject]()
     
     init(name: String) {
         self.name = name
+    }
+	
+	subscript(i: Int) -> Subject {
+        get {
+            return subjectHistory[i]
+        }
+        set {
+            subjectHistory[i] = newValue
+        }
     }
 }
 
@@ -58,3 +67,11 @@ var m = student.course?.subject?.marks
 print(type(of: m))
 
 //Output : Optional<Int>
+
+if let subjectName = student.course?[0].name {
+    print("The first subject name is \(subjectName).")
+} else {
+    print("Unable to retrieve the first subject name.")
+}
+
+

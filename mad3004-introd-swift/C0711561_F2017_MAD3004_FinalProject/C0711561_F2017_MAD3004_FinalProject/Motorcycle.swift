@@ -25,6 +25,6 @@ public class Motorcycle: Vehicle {
     }
     
     override func printMyData() -> String {
-        return "\(super.printMyData())\nVehicle Type: \(vehicleType)\nCylinder Capacity: \(cylinderCapacity)\nType: \(type)\nRiding Posture: \(ridingPosture)\n"
+        return "\(super.printMyData())\n  -Cylinder Capacity: \(cylinderCapacity)\n  -Type: \(type)\n  -Riding Posture: \(ridingPosture)\n"
     }
 }

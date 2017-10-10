@@ -1,7 +1,7 @@
 
 public class FixedBasedPartTime: PartTime {
     
-    var fixedAmount: Double
+    private var fixedAmount: Double
     
     override init() {
         fixedAmount = 0.0
@@ -20,6 +20,10 @@ public class FixedBasedPartTime: PartTime {
     
     override func calcEarnings() -> Double {
         return Double((hourlyRate * numberHoursWorked)) + fixedAmount
+    }
+    
+    override func printMyData() -> String {
+        return "  -Rate: \(hourlyRate)\n  -Hours Worked: \(numberHoursWorked)\n  -Fixed Amount:\(fixedAmount)\n  -Earnings: \(calcEarnings())"
     }
     
 }

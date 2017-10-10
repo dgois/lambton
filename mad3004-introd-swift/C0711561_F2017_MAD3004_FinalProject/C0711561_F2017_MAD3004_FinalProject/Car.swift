@@ -25,6 +25,6 @@ public class Car: Vehicle {
     }
     
     override func printMyData() -> String {
-        return "\(super.printMyData())\n  -Vehicle Type: \(vehicleType)\n  -Trunk Size: \(trunkSize)\n  -Gear: \(gear)\n  -DoorsNumber: \(doorsNumber)\n"
+        return "\(super.printMyData())\n  -Trunk Size: \(trunkSize)\n  -Gear: \(gear)\n  -DoorsNumber: \(doorsNumber)\n"
     }
 }

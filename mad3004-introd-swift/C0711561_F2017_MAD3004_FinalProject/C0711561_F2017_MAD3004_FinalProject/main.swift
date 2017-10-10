@@ -15,27 +15,37 @@ ft1.v = vRef
 aEmp.append(ft1)
 
 // create parttime
-//var pt1 : PartTime
+var pt1 : PartTime
+
+vRef = Car(pMake: "Porsche", pModel: "Carrera", pPlate: "GGRT123", pTrunkSize: 150, pGear: "Automatic", pDoorsNumber: 4)
+
+pt1 = PartTime(ppName: "Matthew", ppAge: 10, pHourlyRate: 100, pNumberHoursWorked: 2, ppV: vRef)
+
+aEmp.append(pt1)
+
+var pt2 : PartTime
+
+pt2 = CommissionBasedPartTime(ppName: "Mark", ppAge: 22, pHourlyRate: 20, pNumberHoursWorked: 80, cbCommision: 1000)
+
+aEmp.append(pt2)
 //
-//vRef = Car(pMake: "Porsche", pModel: "Carrera", pPlate: "GGRT123", pTrunkSize: 180.32, pGear: "Automatic", pDoorsNumber: 4)
+//var pt3 : PartTime
 //
-//pt1 = PartTime(ppName: "Matthew", ppAge: 10, pHourlyRate: 100, pNumberHoursWorked: 2, ppV: vRef)
-
-//aEmp.append(pt1)
-
-//create intern
-
+//pt3 = FixedBasedPartTime(ppName: "Tom", ppAge: 27, pHourlyRate: 25, pNumberHoursWorked: 85, fbFixedBasedPartTime: 800)
+//
+//aEmp.append(pt3)
+//// create intern
+//
 //vRef = Car(pMake: "BMW", pModel: "X6", pPlate: "AART143", pTrunkSize: 180.32, pGear: "Automatic", pDoorsNumber: 4)
 //var it1 = Intern(pName: "Loonie", pAge: 15, pSchool: "WoofCenter", ppV: vRef)
 //
 //aEmp.append(it1)
-
-//create intern
-
-
+//
+////create intern
+//
 //var it2 = Intern(pName: "Toonie", pAge: 15, pSchool: "JKWoofCenter")
 //aEmp.append(it2)
-
+//
 
 
 // calculate payroll
@@ -47,24 +57,13 @@ for i in 0..<aEmp.count {
 
     e = aEmp[i]
     print(e.printMyData())
-//    var earn = e.calcEarnings()
-//
-//    e.printMyData()
-//
-//    if (e.v == nil) {
-//        print ("** Employee has not registered any vehicle ***")
-//    } else {
-//        print ("*** Employe has a Vehicle")
-//        print ("Make: \(e.v!.make)")
-//        print ("Model: \(e.v!.model)")
-//    }
-//    print ("Birth Year: " + String(e.calcBirthYear()))
-//    print ("Earnings: \(earn)")
-//    print ("**********************")
-//
-//    totalPR = totalPR + earn
+    let earn = e.calcEarnings()
+
+    totalPR = totalPR + earn
 }
 
+print("\n-------------------------------------------")
+print("\n")
 print ("TOTAL PAYROLL: \(totalPR)")
 
 

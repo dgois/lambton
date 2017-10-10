@@ -1,8 +1,8 @@
 public class Vehicle : IPrintable {
 
-    public var make: String
-    public var model: String
-    public var plate: String
+    private var make: String
+    private var model: String
+    private var plate: String
     
     init() {
         make = ""

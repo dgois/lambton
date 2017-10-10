@@ -16,6 +16,9 @@ public class Intern : Employee {
         super.init(pName, pAge, ppV)
     }
 
+    override func getTypeOfEmployee() -> String {
+        return "Intern"
+    }
     
     override func printMyData() -> String {
         return "\(super.printMyData())\nSchool Name: \(schoolName)"

@@ -1,49 +1,79 @@
 public class Employee: IPrintable {
     
-    public var name: String
-    public var age: Int
-    public var v: Vehicle? // optional
+    private var _name: String
+    public var name: String {
+        get {
+            return _name
+        }
+        
+        set {
+            _name = newValue
+        }
+    }
+    
+    private var _age: Int
+    public var age: Int {
+        get {
+            return _age
+        }
+        
+        set {
+            _age = newValue
+        }
+    }
+    
+    private var _v: Vehicle? // optional
+    public var v: Vehicle? {
+        get {
+            return _v
+        }
+        
+        set {
+            _v = newValue
+        }
+    }
     
     init() {
-        name = ""
-        age = 0
-        v = nil
+        _name = ""
+        _age = 0
+        _v = nil
     }
     
     init (_ pName: String,_ pAge: Int) {
-        name = pName
-        age = pAge
-        v = nil
+        _name = pName
+        _age = pAge
+        _v = nil
     }
     
     init (_ pName: String,_ pAge: Int, _ pV: Vehicle) {
-        name = pName
-        age = pAge
-        v = pV
-    }
-    
-    func getTypeOfEmployee() -> String {
-        fatalError("This method must be overridden")
+        _name = pName
+        _age = pAge
+        _v = pV
     }
     
     func calcBirthYear() -> Int {
         return (2017 - self.age)
     }
     
+    func getTypeOfEmployee() -> String {
+        fatalError("This method must be overridden")
+    }
+    
     func calcEarnings() -> Double {
-        return 1000.00
+        fatalError("This method must be overridden")
     }
     
     func printMyData() -> String {
-        let personalInfo = "Name: \(name)\nAge:\(age)\nYear of Birth: \(calcBirthYear())\n"
+        let line = "\n-------------------------------------------"
+        let personalInfo = "\nName: \(name)\nAge: \(age)\nYear of Birth: \(calcBirthYear())\n"
         
-        var vehicleInfo = "Employee does not have vehicle"
+        var vehicleInfo = "\nEmployee has no vehicle registered"
         if let vehicle = v {
-            vehicleInfo = "Employee has a \(vehicle.getVehicleType())\n\(vehicle.printMyData())"
+            vehicleInfo = "\nEmployee has a \(vehicle.getVehicleType())\n\(vehicle.printMyData())"
         }
         
-        let employeeInfo = "Employee is \(getTypeOfEmployee())"
+        let employeeInfo = "\nEmployee is \(getTypeOfEmployee())"
         
-        return personalInfo + vehicleInfo + employeeInfo
+        return line + personalInfo + vehicleInfo + employeeInfo
     }
 }

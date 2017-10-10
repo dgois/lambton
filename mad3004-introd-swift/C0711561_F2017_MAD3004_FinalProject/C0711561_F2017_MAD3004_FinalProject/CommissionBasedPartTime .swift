@@ -1,7 +1,7 @@
 
 public class CommissionBasedPartTime: PartTime {
     
-    var commision: Double
+    private var commision: Double
     
     override init() {
         commision = 0.0
@@ -20,7 +20,11 @@ public class CommissionBasedPartTime: PartTime {
     }
     
     override func calcEarnings() -> Double {
-        return Double((hourlyRate * numberHoursWorked)) + commision
+        return Double(hourlyRate * numberHoursWorked) + commision
+    }
+    
+    override func printMyData() -> String {
+        return "\(super.printMyData())\n  -Commision: \(commision)\n  -Earnings: \(calcEarnings())"
     }
     
 }

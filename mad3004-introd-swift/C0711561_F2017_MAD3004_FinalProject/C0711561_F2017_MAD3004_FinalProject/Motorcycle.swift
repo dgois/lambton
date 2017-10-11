@@ -3,7 +3,7 @@ public class Motorcycle: Vehicle {
     
     private let vehicleType = "Motorcycle"
     private var cylinderCapacity: Int
-    private var type: String //street, off-road, and dual purpose
+    private var type: String //street, off-road, racing, and dual purpose
     private var ridingPosture: String //sport, standard, cruiser
     
     override init() {
@@ -25,6 +25,6 @@ public class Motorcycle: Vehicle {
     }
     
     override func printMyData() -> String {
-        return "\(super.printMyData())\n  -Cylinder Capacity: \(cylinderCapacity)\n  -Type: \(type)\n  -Riding Posture: \(ridingPosture)\n"
+        return "\(super.printMyData())\n  -Cylinder Capacity: \(cylinderCapacity)cc\n  -Type: \(type)\n  -Riding Posture: \(ridingPosture)\n"
     }
 }

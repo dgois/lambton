@@ -18,12 +18,20 @@ public class FixedBasedPartTime: PartTime {
         super.init(ppName: ppName, ppAge: ppAge, pHourlyRate: pHourlyRate, pNumberHoursWorked: pNumberHoursWorked, ppV: ppV)
     }
     
+    private func calcSalary() -> Double {
+        return Double(hourlyRate * numberHoursWorked)
+    }
+    
     override func calcEarnings() -> Double {
-        return Double((hourlyRate * numberHoursWorked)) + fixedAmount
+        return calcSalary() + fixedAmount
+    }
+    
+    override func getTypeOfEmployee() -> String {
+        return super.getTypeOfEmployee() + " / Fixed Amt"
     }
     
     override func printMyData() -> String {
-        return "  -Rate: \(hourlyRate)\n  -Hours Worked: \(numberHoursWorked)\n  -Fixed Amount:\(fixedAmount)\n  -Earnings: \(calcEarnings())"
+        return "\(super.printMyData())\n  -Fixed Amount: $\(fixedAmount)\n  -Earnings: $\(calcEarnings()) (\(calcSalary()) + \(fixedAmount))"
     }
     
 }

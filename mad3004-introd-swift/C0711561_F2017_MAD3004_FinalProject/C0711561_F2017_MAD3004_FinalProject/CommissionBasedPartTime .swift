@@ -19,12 +19,24 @@ public class CommissionBasedPartTime: PartTime {
         super.init(ppName: ppName, ppAge: ppAge, pHourlyRate: pHourlyRate, pNumberHoursWorked: pNumberHoursWorked, ppV: ppV)
     }
     
+    private func calcSalary() -> Double {
+        return Double(hourlyRate * numberHoursWorked)
+    }
+    
+    private func calcCommision() -> Double {
+        return calcSalary() * (commision / 100)
+    }
+    
     override func calcEarnings() -> Double {
-        return Double(hourlyRate * numberHoursWorked) + commision
+        return calcSalary() + calcCommision()
+    }
+    
+    override func getTypeOfEmployee() -> String {
+        return super.getTypeOfEmployee() + " / Commissioned"
     }
     
     override func printMyData() -> String {
-        return "\(super.printMyData())\n  -Commision: \(commision)\n  -Earnings: \(calcEarnings())"
+        return "\(super.printMyData())\n  -Commission: \(commision)%\n  -Earnings: \(calcEarnings()) (\(calcSalary()) + \(commision)% of \(calcSalary()))"
     }
     
 }

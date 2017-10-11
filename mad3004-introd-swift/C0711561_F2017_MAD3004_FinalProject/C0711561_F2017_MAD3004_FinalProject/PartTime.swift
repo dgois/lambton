@@ -46,15 +46,7 @@ public class PartTime: Employee {
         return "Part Time"
     }
     
-    override func calcEarnings() -> Double {
-        return Double(numberHoursWorked * hourlyRate)
-    }
-    
     override func printMyData() -> String {
-        var earnings = ""
-        if is PartTime {
-            earnings = "  -Earnings: \(calcEarnings())"
-        }
-        return "\(super.printMyData())\n  -Rate: \(hourlyRate)\n  -Hours Worked: \(numberHoursWorked) \(earnings)"
+        return "\(super.printMyData())\n  -Rate: \(hourlyRate)\n  -Hours Worked: \(numberHoursWorked)"
     }
 }

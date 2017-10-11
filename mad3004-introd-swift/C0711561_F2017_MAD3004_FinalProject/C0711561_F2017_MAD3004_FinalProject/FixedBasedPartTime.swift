@@ -31,7 +31,7 @@ public class FixedBasedPartTime: PartTime {
     }
     
     override func printMyData() -> String {
-        return "\(super.printMyData())\n  -Fixed Amount: $\(fixedAmount)\n  -Earnings: $\(calcEarnings()) (\(calcSalary()) + \(fixedAmount))"
+        return "\(super.printMyData())\n  -Fixed Amount: \(Util.toCurrencyFormatFrom(value: fixedAmount))\n  -Earnings: \(Util.toCurrencyFormatFrom(value: calcEarnings())) (\(calcSalary()) + \(fixedAmount))"
     }
     
 }

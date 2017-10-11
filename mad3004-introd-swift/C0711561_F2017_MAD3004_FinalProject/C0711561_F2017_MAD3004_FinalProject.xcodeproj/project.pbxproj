@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B03E84F1F8ECB58005F251B /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B03E84E1F8ECB58005F251B /* Util.swift */; };
 		9B2CDF331F8839FE00835620 /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2CDF2D1F8839FE00835620 /* Employee.swift */; };
 		9B2CDF341F8839FE00835620 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2CDF2E1F8839FE00835620 /* Vehicle.swift */; };
 		9B2CDF351F8839FE00835620 /* FullTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2CDF2F1F8839FE00835620 /* FullTime.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9B03E84E1F8ECB58005F251B /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		9B2CDF2D1F8839FE00835620 /* Employee.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
 		9B2CDF2E1F8839FE00835620 /* Vehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		9B2CDF2F1F8839FE00835620 /* FullTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullTime.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				9B57E36D1F871C5700196843 /* CommissionBasedPartTime .swift */,
 				9B57E36F1F871C7400196843 /* FixedBasedPartTime.swift */,
 				9B2CDF391F884D8B00835620 /* IPrintable.swift */,
+				9B03E84E1F8ECB58005F251B /* Util.swift */,
 			);
 			path = C0711561_F2017_MAD3004_FinalProject;
 			sourceTree = "<group>";
@@ -157,6 +160,7 @@
 				9B57E36C1F871C3900196843 /* Motorcycle.swift in Sources */,
 				9B2CDF381F8839FE00835620 /* Intern.swift in Sources */,
 				9B2CDF3A1F884D8B00835620 /* IPrintable.swift in Sources */,
+				9B03E84F1F8ECB58005F251B /* Util.swift in Sources */,
 				9B57E36E1F871C5700196843 /* CommissionBasedPartTime .swift in Sources */,
 				9B2CDF331F8839FE00835620 /* Employee.swift in Sources */,
 				9B57E36A1F871BBE00196843 /* Car.swift in Sources */,

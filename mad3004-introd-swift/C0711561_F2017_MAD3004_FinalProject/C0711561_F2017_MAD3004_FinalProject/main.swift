@@ -1,3 +1,5 @@
+import Foundation
+
 var moto1: Vehicle = Motorcycle(pMake: "Yamaha", pModel: "2017 YZF-R1M", pPlate: "H5J4II1", pCylinderCapacity: 998, pType: "Racing", pRidingPosture: "Sport")
 var moto2: Vehicle = Motorcycle(pMake: "Harley-Davidson", pModel: "750", pPlate: "DEG134H", pCylinderCapacity: 750, pType: "Street", pRidingPosture: "Standard")
 
@@ -55,9 +57,11 @@ for i in 0..<aEmp.count {
     totalPR += earn
 }
 
+
+
 print("\n-------------------------------------------")
 print("\n")
-print ("TOTAL PAYROLL: $\(totalPR)\n")
+print ("TOTAL PAYROLL: \(Util.toCurrencyFormatFrom(value: totalPR)) Canadian Dollars\n")
 
 
 

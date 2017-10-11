@@ -1,8 +1,10 @@
+import Foundation
+
 public class FullTime : Employee {
     let typeOfEmployee = "FullTime"
     
-    private var _salary: Int
-    public var salary: Int {
+    private var _salary: Double
+    public var salary: Double {
         get {
             return _salary
         }
@@ -12,8 +14,8 @@ public class FullTime : Employee {
         }
     }
     
-    private var _bonus: Int
-    public var bonus: Int {
+    private var _bonus: Double
+    public var bonus: Double {
         get {
             return _bonus
         }
@@ -29,13 +31,13 @@ public class FullTime : Employee {
         super.init();
     }
     
-    init(ppName: String, ppAge: Int, pSalary: Int, pBonus: Int) {
+    init(ppName: String, ppAge: Int, pSalary: Double, pBonus: Double) {
         _salary = pSalary
         _bonus = pBonus
         super.init(ppName, ppAge)
     }
     
-    init(ppName: String, ppAge: Int, pSalary: Int, pBonus: Int, ppV: Vehicle) {
+    init(ppName: String, ppAge: Int, pSalary: Double, pBonus: Double, ppV: Vehicle) {
         _salary = pSalary
         _bonus = pBonus
         super.init(ppName, ppAge, ppV)
@@ -50,6 +52,6 @@ public class FullTime : Employee {
     }
     
     override func printMyData() -> String {
-        return "\(super.printMyData())\n  -Salary: $\(salary)\n  -Bonus: $\(bonus)\n  -Earnings: $\(calcEarnings())"
+        return "\(super.printMyData())\n  -Salary: \(Util.toCurrencyFormatFrom(value: salary))\n  -Bonus: \(Util.toCurrencyFormatFrom(value: bonus))\n  -Earnings: \(Util.toCurrencyFormatFrom(value: calcEarnings()))"
     }
 }

@@ -30,7 +30,7 @@ public class Intern : Employee {
     }
     
     override func printMyData() -> String {
-        return "\(super.printMyData())\n  -School Name: \(schoolName)\n  -Earnings: $\(calcEarnings())"
+        return "\(super.printMyData())\n  -School Name: \(schoolName)\n  -Earnings: \(Util.toCurrencyFormatFrom(value: calcEarnings()))"
     }
     
 }

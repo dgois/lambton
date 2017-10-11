@@ -57,8 +57,6 @@ for i in 0..<aEmp.count {
     totalPR += earn
 }
 
-
-
 print("\n-------------------------------------------")
 print("\n")
 print ("TOTAL PAYROLL: \(Util.toCurrencyFormatFrom(value: totalPR)) Canadian Dollars\n")

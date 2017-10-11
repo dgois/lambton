@@ -36,7 +36,7 @@ public class CommissionBasedPartTime: PartTime {
     }
     
     override func printMyData() -> String {
-        return "\(super.printMyData())\n  -Commission: \(commision)%\n  -Earnings: \(Util.toCurrencyFormatFrom(value:calcEarnings())) (\(calcSalary()) + \(commision)% of \(calcSalary()))"
+        return "\(super.printMyData())\n  -Commission: \(commision)%\n  -Earnings: \(Util.getInstant().toCurrencyFormatFrom(value:calcEarnings())) (\(calcSalary()) + \(commision)% of \(calcSalary()))"
     }
     
 }

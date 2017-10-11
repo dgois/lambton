@@ -9,7 +9,21 @@
 import Foundation
 
 class Util {
-    static func toCurrencyFormatFrom(value: Double) -> String {
+    
+    private static var instant: Util?
+    
+    private init(){}
+    
+    public static func getInstant() -> Util {
+        if instant != nil{
+            return instant!
+        }else{
+            instant = Util()
+            return instant!
+        }
+    }
+    
+    public func toCurrencyFormatFrom(value: Double) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         

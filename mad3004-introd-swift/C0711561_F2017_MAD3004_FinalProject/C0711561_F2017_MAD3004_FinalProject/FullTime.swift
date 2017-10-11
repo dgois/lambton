@@ -52,6 +52,6 @@ public class FullTime : Employee {
     }
     
     override func printMyData() -> String {
-        return "\(super.printMyData())\n  -Salary: \(Util.toCurrencyFormatFrom(value: salary))\n  -Bonus: \(Util.toCurrencyFormatFrom(value: bonus))\n  -Earnings: \(Util.toCurrencyFormatFrom(value: calcEarnings()))"
+        return "\(super.printMyData())\n  -Salary: \(Util.getInstant().toCurrencyFormatFrom(value: salary))\n  -Bonus: \(Util.getInstant().toCurrencyFormatFrom(value: bonus))\n  -Earnings: \(Util.getInstant().toCurrencyFormatFrom(value: calcEarnings()))"
     }
 }

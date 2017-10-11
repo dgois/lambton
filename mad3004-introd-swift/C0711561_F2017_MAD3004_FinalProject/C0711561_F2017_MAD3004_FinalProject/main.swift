@@ -59,7 +59,7 @@ for i in 0..<aEmp.count {
 
 print("\n-------------------------------------------")
 print("\n")
-print ("TOTAL PAYROLL: \(Util.toCurrencyFormatFrom(value: totalPR)) Canadian Dollars\n")
+print ("TOTAL PAYROLL: \(Util.getInstant().toCurrencyFormatFrom(value: totalPR)) Canadian Dollars\n")
 
 
 

@@ -44,6 +44,11 @@ class EmployeeCreateViewController: UIViewController {
         for e in Employee.employees.values {
             print("Employee: \(e.id) - \(e.name) - \(e.birthDate) - \(e.salary)")
         }
+        
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let empViewController = storyBoard.instantiateViewController(withIdentifier: "listEmployeesScreen") as! EmployeeTableViewController
+        self.present(empViewController, animated: true, completion: nil)
+        
     }
 
 }

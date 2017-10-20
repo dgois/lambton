@@ -46,7 +46,6 @@
 		9B8C42D41F98053F0040CF1C = {
 			isa = PBXGroup;
 			children = (
-				9B6A5DDC1F998FE0008F556E /* EmployeeTableViewController.swift */,
 				9B8C42DF1F98053F0040CF1C /* TableViewExample */,
 				9B8C42DE1F98053F0040CF1C /* Products */,
 			);
@@ -63,6 +62,7 @@
 		9B8C42DF1F98053F0040CF1C /* TableViewExample */ = {
 			isa = PBXGroup;
 			children = (
+				9B6A5DDC1F998FE0008F556E /* EmployeeTableViewController.swift */,
 				9B8C42E01F98053F0040CF1C /* AppDelegate.swift */,
 				9B8C42E21F98053F0040CF1C /* ViewController.swift */,
 				9B8C42E41F98053F0040CF1C /* Main.storyboard */,

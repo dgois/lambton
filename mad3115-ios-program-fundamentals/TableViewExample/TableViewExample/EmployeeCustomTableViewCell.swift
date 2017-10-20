@@ -10,6 +10,9 @@ import UIKit
 
 class EmployeeCustomTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var lblName: UILabel!
+    @IBOutlet weak var lblSalary: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -27,23 +27,18 @@ class CreateEmployeeViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        if let empTableViewController = segue.destination as? EmployeeTableViewController {
+            empTableViewController.employees = employees
+        }
     }
     
     @IBAction func saveEmployee(_ sender: UIButton) {
         if let name = txtEmpName.text, let salary = txtEmpSalary.text {
             employees.append(Employee(name: name, salary: Double(salary)!))
         }
+        
+        self.performSegue(withIdentifier: "listEmployeesSegue", sender: nil)
     }
 }
 
-class Employee {
-    
-    var name: String
-    var salary: Double
-    
-    init(name: String, salary: Double) {
-        self.name = name
-        self.salary = salary
-    }
-}
+

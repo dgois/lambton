@@ -8,24 +8,24 @@
 
 import UIKit
 
-class DinamicTableViewController: UIViewController, UITableViewDataSource {
+class DinamicTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
-    var data = [String]()
+    var data = ["Brazil", "India", "Canada", "Paraguay", "Italy", "Spain", "Chile", "USA", "Ecuador", "Argentina", "France"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
-        
-        for i in 0...100 {
-            data.append("\(i)")
-        }
+        tableView.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(data[indexPath.row])
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

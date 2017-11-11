@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package day4;
+package com.denis.example;
 
 import java.util.Arrays;
 
@@ -13,27 +13,15 @@ import java.util.Arrays;
  */
 public class Encryption {
     
+    private EncryptionDatabase database;
     
-    /*
-    I am at lambton college, Toronto
+    public Encryption() {
+        
+    }
     
-    SECRET key word
-    
-    S E C R E T
-    I   a m   a
-    t   l a m b
-    t o n   c o
-    l l e g e ,
-      T o r o n
-    t o
-    
-    1- before send, read from column
-    2- before read from column, read the alphabetic key sorted
-    
-    SECRET
-    CEERST
-    TSREEC
-    */
+    public Encryption(EncryptionDatabase database) {
+        this.database = database;
+    }
     
     public static void main(String[] args) {
         String data = "Hello Lambton";
@@ -73,7 +61,10 @@ public class Encryption {
             }
         }
        
-        //printMatrix(dataMatrix);
+//        boolean saved = database.save(sb.toString());
+//        if (!saved) {
+//            throw new RuntimeException("The message was not saved!");
+//        }
         
         return sb.toString();
     }

@@ -1,4 +1,4 @@
-package com.denis.example;
+package com.lambton.example;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

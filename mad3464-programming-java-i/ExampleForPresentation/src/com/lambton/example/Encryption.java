@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.denis.example;
+package com.lambton.example;
 
 import java.util.Arrays;
 

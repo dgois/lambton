@@ -124,3 +124,4 @@ nbdist/
 .nb-gradle/
 
 # End of https://www.gitignore.io/api/java,macos,eclipse,netbeans,code-java
+/mad3464-programming-java-i/Algorithms/JavaApplication4/nbproject/private/

@@ -17,8 +17,8 @@ public class Car extends Vehicle {
     private String gear;
     private int doorsNumber;
 
-    public Car(String make, String plate, double trunkSize, String gear, int doorsNumber) {
-        super(make, plate);
+    public Car(String make, String model, String plate, double trunkSize, String gear, int doorsNumber) {
+        super(make, plate, model);
         this.trunkSize = trunkSize;
         this.gear = gear;
         this.doorsNumber = doorsNumber;

@@ -17,8 +17,8 @@ public class Motorcycle extends Vehicle {
     private String type; //street, off-road, racing, and dual purpose
     private String ridingPosture; //sport, standard, cruiser
 
-    public Motorcycle(String make, String plate, int cylinderCapacity, String type, String ridingPosture) {
-        super(make, plate);
+    public Motorcycle(String make, String model, String plate, int cylinderCapacity, String type, String ridingPosture) {
+        super(make, model, plate);
         this.cylinderCapacity = cylinderCapacity;
         this.type = type;
         this.ridingPosture = ridingPosture;

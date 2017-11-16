@@ -5,6 +5,8 @@
  */
 package c0711561.f2017.mad3464.finalproject.employee;
 
+import c0711561.f2017.mad3464.finalproject.IPrintable;
+import c0711561.f2017.mad3464.finalproject.vehicle.Vehicle;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -12,14 +14,21 @@ import java.time.LocalDate;
  *
  * @author macstudent
  */
-public class Employee {
+public abstract class Employee implements IPrintable {
     
-    private String name;
-    private int age;
+    private final String name;
+    private final int age;
+    private Vehicle vehicle;
 
     public Employee(String name, int age) {
         this.name = name;
         this.age = age;
+    }
+    
+    public Employee(String name, int age, Vehicle vehicle) {
+        this.name = name;
+        this.age = age;
+        this.vehicle = vehicle;
     }
     
     public int calcBirthYear() {
@@ -29,5 +38,30 @@ public class Employee {
     public BigDecimal calcEarnings() {
         return new BigDecimal(1000);
     }
+    
+    public abstract String getTypeOfEmployee();
+    
+    @Override
+    public String printMyData() {
+        String line = "\n-------------------------------------------";
+        
+        String personalInfo = String.format("\nName: %s\nAge: %d\nYear of Birth: %d\n", name, age, calcBirthYear());
+        
+        String vehicleInfo;
+        if (employeeHasVehicle()) {
+            vehicleInfo = String.format("\nEmployee has a %s\n%s", vehicle.getVehicleType(), vehicle.printMyData());
+        } else {
+            vehicleInfo = "\nEmployee has no vehicle registered";
+        }
+        
+        String employeeInfo = String.format("Employee is %s", getTypeOfEmployee());
+        
+        return new StringBuilder().append(line).append(personalInfo).append(vehicleInfo).append(employeeInfo).toString();
+    }
+
+    private boolean employeeHasVehicle() {
+        return vehicle != null;
+    }
+    
     
 }

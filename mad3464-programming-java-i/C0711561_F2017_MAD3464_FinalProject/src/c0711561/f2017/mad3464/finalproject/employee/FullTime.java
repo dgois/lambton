@@ -5,6 +5,8 @@
  */
 package c0711561.f2017.mad3464.finalproject.employee;
 
+import c0711561.f2017.mad3464.finalproject.Util;
+import c0711561.f2017.mad3464.finalproject.vehicle.Vehicle;
 import java.math.BigDecimal;
 
 /**
@@ -13,11 +15,17 @@ import java.math.BigDecimal;
  */
 public class FullTime extends Employee {
     
-    private double salary;
-    private double bonus;
+    private final double salary;
+    private final double bonus;
 
     public FullTime(String name, int age, double salary, double bonus) {
         super(name, age);
+        this.salary = salary;
+        this.bonus = bonus;
+    }
+    
+        public FullTime(String name, int age, double salary, double bonus, Vehicle vehicle) {
+        super(name, age, vehicle);
         this.salary = salary;
         this.bonus = bonus;
     }
@@ -26,6 +34,22 @@ public class FullTime extends Employee {
     public BigDecimal calcEarnings() {
         return new BigDecimal(salary + bonus);
     }
+
+    @Override
+    public String getTypeOfEmployee() {
+        return "Full Time";
+    }
+
+    @Override
+    public String printMyData() {
+        String data = super.printMyData() 
+                + "\n -Salary: " + Util.toCurrencyFormatFrom(salary) 
+                + "\n -Bonus: " + Util.toCurrencyFormatFrom(bonus) 
+                + "\n -Earnings: " + Util.toCurrencyFormatFrom(calcEarnings());
+        
+        return data;
+    }
+    
     
     
 }

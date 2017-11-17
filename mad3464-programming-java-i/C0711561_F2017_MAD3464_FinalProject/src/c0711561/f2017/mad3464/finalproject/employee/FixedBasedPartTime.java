@@ -5,6 +5,7 @@
  */
 package c0711561.f2017.mad3464.finalproject.employee;
 
+import c0711561.f2017.mad3464.finalproject.Util;
 import c0711561.f2017.mad3464.finalproject.employee.PartTime;
 import c0711561.f2017.mad3464.finalproject.vehicle.Vehicle;
 import java.math.BigDecimal;
@@ -27,8 +28,24 @@ public class FixedBasedPartTime extends PartTime {
         this.fixedAmount = fixedAmount;
     }
 
+    private double calcSalary() {
+        return getRate() * getHoursWorked();
+    }
+
+    @Override
+    public String getTypeOfEmployee() {
+        return super.getTypeOfEmployee() + " / Fixed Amt";
+    }
+    
     @Override
     public BigDecimal calcEarnings() {
-        return new BigDecimal(fixedAmount).add(super.calcEarnings());
+        return new BigDecimal(fixedAmount + calcSalary());
+    }
+
+    @Override
+    public String printMyData() {
+        return super.printMyData() 
+                + "\n - Fixed Amount: " + Util.toCurrencyFormatFrom(fixedAmount)
+                + "\n - Earnings: " + Util.toCurrencyFormatFrom(calcEarnings()) + "(" + calcSalary() + " + " + fixedAmount + ")";
     }
 }

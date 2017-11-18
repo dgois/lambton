@@ -7,7 +7,6 @@ package c0711561.f2017.mad3464.finalproject.employee;
 
 import c0711561.f2017.mad3464.finalproject.IPrintable;
 import c0711561.f2017.mad3464.finalproject.vehicle.Vehicle;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
@@ -35,8 +34,8 @@ public abstract class Employee implements IPrintable {
         return LocalDate.now().getYear() - age;
     }
     
-    public BigDecimal calcEarnings() {
-        return new BigDecimal(1000);
+    public double calcEarnings() {
+        return 1000;
     }
     
     public abstract String getTypeOfEmployee();
@@ -54,7 +53,7 @@ public abstract class Employee implements IPrintable {
             vehicleInfo = "\nEmployee has no vehicle registered";
         }
         
-        String employeeInfo = String.format("Employee is %s", getTypeOfEmployee());
+        String employeeInfo = String.format("\nEmployee is %s", getTypeOfEmployee());
         
         return new StringBuilder().append(line).append(personalInfo).append(vehicleInfo).append(employeeInfo).toString();
     }
@@ -62,6 +61,4 @@ public abstract class Employee implements IPrintable {
     private boolean employeeHasVehicle() {
         return vehicle != null;
     }
-    
-    
 }

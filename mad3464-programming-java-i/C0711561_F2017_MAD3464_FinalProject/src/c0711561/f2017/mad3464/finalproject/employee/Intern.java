@@ -6,6 +6,7 @@
 package c0711561.f2017.mad3464.finalproject.employee;
 
 import c0711561.f2017.mad3464.finalproject.Util;
+import c0711561.f2017.mad3464.finalproject.vehicle.Vehicle;
 
 /**
  *
@@ -14,10 +15,18 @@ import c0711561.f2017.mad3464.finalproject.Util;
 public class Intern extends Employee {
 
     private String schoolName;
+    private double fixedSalary;
 
-    public Intern(String name, int age, String schoolName) {
+    public Intern(String name, int age, String schoolName, double fixedSalary) {
         super(name, age);
         this.schoolName = schoolName;
+        this.fixedSalary = fixedSalary;
+    }
+    
+    public Intern(String name, int age, String schoolName, double fixedSalary, Vehicle vehicle) {
+        super(name, age, vehicle);
+        this.schoolName = schoolName;
+        this.fixedSalary = fixedSalary;
     }
 
     @Override
@@ -28,7 +37,7 @@ public class Intern extends Employee {
     @Override
     public String printMyData() {
         return super.printMyData()
-                + "\n -School Name: " + schoolName
-                + "\n -Earnings: " + Util.toCurrencyFormatFrom(calcEarnings());
+                + "\n - School Name: " + schoolName
+                + "\n - Earnings: " + Util.toCurrencyFormatFrom(calcEarnings());
     }
 }

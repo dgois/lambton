@@ -39,6 +39,6 @@ public abstract class Vehicle implements IPrintable {
 
     @Override
     public String printMyData() {
-        return String.format("   -Make: %s\n  -Model: %s\n -Plate: %s", make, model, plate);
+        return String.format(" - Make: %s\n - Model: %s\n - Plate: %s", make, model, plate);
     }
 }

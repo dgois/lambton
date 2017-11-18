@@ -7,7 +7,6 @@ package c0711561.f2017.mad3464.finalproject.employee;
 
 import c0711561.f2017.mad3464.finalproject.Util;
 import c0711561.f2017.mad3464.finalproject.vehicle.Vehicle;
-import java.math.BigDecimal;
 
 /**
  *
@@ -41,15 +40,15 @@ public class CommissionBasedPartTime extends PartTime {
     }
 
     @Override
-    public BigDecimal calcEarnings() {
-        return new BigDecimal(commission).add(super.calcEarnings());
+    public double calcEarnings() {
+        return commission + super.calcEarnings();
     }
 
     @Override
     public String printMyData() {
         return super.printMyData()
-                + "\n  -Commission: " + commission
-                + "\n  -Earnings: " + Util.toCurrencyFormatFrom(calcEarnings())
+                + "\n - Commission: " + commission
+                + "\n - Earnings: " + Util.toCurrencyFormatFrom(calcEarnings())
                 + " " + calcSalary() + " + " + commission + "%" + " of " + calcSalary();
     }
 }

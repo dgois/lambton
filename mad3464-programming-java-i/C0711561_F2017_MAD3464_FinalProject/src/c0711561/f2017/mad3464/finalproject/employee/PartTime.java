@@ -6,7 +6,6 @@
 package c0711561.f2017.mad3464.finalproject.employee;
 
 import c0711561.f2017.mad3464.finalproject.vehicle.Vehicle;
-import java.math.BigDecimal;
 
 /**
  *
@@ -38,9 +37,8 @@ public class PartTime extends Employee {
     }
 
     @Override
-    public BigDecimal calcEarnings() {
-        double earnings = rate * hoursWorked;
-        return new BigDecimal(earnings);
+    public double calcEarnings() {
+        return rate * hoursWorked;
     }
 
     @Override
@@ -51,7 +49,7 @@ public class PartTime extends Employee {
     @Override
     public String printMyData() {
         return super.printMyData() 
-                + "\n -Rate: " + rate
-                + "\n -Hours Worked: " + hoursWorked;
+                + "\n - Rate: " + rate
+                + "\n - Hours Worked: " + hoursWorked;
     }
 }

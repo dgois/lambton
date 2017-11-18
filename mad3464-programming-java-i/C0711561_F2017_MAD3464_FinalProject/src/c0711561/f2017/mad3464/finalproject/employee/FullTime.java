@@ -7,7 +7,6 @@ package c0711561.f2017.mad3464.finalproject.employee;
 
 import c0711561.f2017.mad3464.finalproject.Util;
 import c0711561.f2017.mad3464.finalproject.vehicle.Vehicle;
-import java.math.BigDecimal;
 
 /**
  *
@@ -31,8 +30,8 @@ public class FullTime extends Employee {
     }
 
     @Override
-    public BigDecimal calcEarnings() {
-        return new BigDecimal(salary + bonus);
+    public double calcEarnings() {
+        return salary + bonus;
     }
 
     @Override
@@ -43,9 +42,9 @@ public class FullTime extends Employee {
     @Override
     public String printMyData() {
         String data = super.printMyData() 
-                + "\n -Salary: " + Util.toCurrencyFormatFrom(salary) 
-                + "\n -Bonus: " + Util.toCurrencyFormatFrom(bonus) 
-                + "\n -Earnings: " + Util.toCurrencyFormatFrom(calcEarnings());
+                + "\n - Salary: " + Util.toCurrencyFormatFrom(salary) 
+                + "\n - Bonus: " + Util.toCurrencyFormatFrom(bonus) 
+                + "\n - Earnings: " + Util.toCurrencyFormatFrom(calcEarnings());
         
         return data;
     }

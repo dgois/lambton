@@ -40,7 +40,7 @@ aEmp.append(it1)
 
 //create intern
 
-var it2: Employee = Intern(pName: "Toonie", pAge: 15, pSchool: "JKWoofCenter", pFixedSalary: 1100.0)
+var it2: Employee = Intern(pName: "Toonie", pAge: 15, pSchool: ", pFixedSalary: 1100.0)
 aEmp.append(it2)
 
 // calculate payroll

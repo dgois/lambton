@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LinearLayoutExample</string>
+    <string name="error_message_division_by_zero">Deve ser maior que zero</string>
+    <string name="label_calculator">Calcular</string>
+    <string name="label_enter_number_1">Informe o número 1</string>
+    <string name="label_enter_number_2">Informe o número 2</string>
+    <string name="label_result">Resultado</string>
+    <string name="label_error_inform_number_1">Informe o número 1</string>
+    <string name="label_error_inform_number_2">Informe o número 2</string>
+</resources>

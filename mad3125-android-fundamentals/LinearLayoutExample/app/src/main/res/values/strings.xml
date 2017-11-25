@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name" translatable="false">LinearLayoutExample</string>
+    <string name="label_calculator">Calculator</string>
+    <string name="label_enter_number_1">Enter Number 1</string>
+    <string name="label_enter_number_2">Enter Number 2</string>
+    <string name="label_result">Result</string>
+    <string name="error_message_division_by_zero">Must be greater than 0</string>
+    <string name="label_error_inform_number_1">Inform number 1</string>
+    <string name="label_error_inform_number_2">Inform number 2</string>
+</resources>

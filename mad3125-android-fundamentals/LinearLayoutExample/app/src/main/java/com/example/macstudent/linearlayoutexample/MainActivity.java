@@ -1,5 +1,6 @@
 package com.example.macstudent.linearlayoutexample;
 
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -91,5 +93,20 @@ public class MainActivity extends AppCompatActivity {
         }
         a = Integer.parseInt(edtNumber1.getText().toString());
         b = Integer.parseInt(edtNumber2.getText().toString());
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+
+
+        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "Landscape", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(this, "Portrait", Toast.LENGTH_SHORT).show();
+        }
+
+        super.onConfigurationChanged(newConfig);
     }
 }

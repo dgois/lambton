@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="false"
+    android:background="@android:color/holo_blue_dark"
+    android:orientation="vertical"
+    android:padding="5dp"
+    >
+
+    <ImageView
+        android:id="@+id/imgEmployee"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="13dp"
+        android:padding="10dp"
+        app:srcCompat="@mipmap/ic_launcher_round"/>
+
+    <TextView
+        android:id="@+id/txtEmployeeId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/imgEmployee"
+        android:text="Employee ID"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/txtEmployeeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtEmployeeId"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@id/imgEmployee"
+        android:text="Employee Name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        />
+
+</RelativeLayout>

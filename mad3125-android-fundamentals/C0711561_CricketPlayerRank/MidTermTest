@@ -1,0 +1,44 @@
+
+
+Application Name : RollNo_CricketPlayerRank
+
+Screens
+
+1) Splash screen with appropriate game theme						Marks (5)
+2) Login Screens													Marks (5)
+	EmailId and Pasword with validation								Marks (10)
+
+3) Player Portfolio entry Screens									Marks (30)
+	- Player Name
+	- Gender
+	- Birthdate
+	- Player category (Batsman, Bowler, Wicket keeper)
+	- Team Country (India, Brazil, Canada, England ,etc.)
+	- No. of Test match  	(Per match 5 points)
+	- No. of 1 day match 	(Per match 2 points)
+	- No. of catch			(Per catch 3 Points)
+	- No. of Runs			(Per run 1 point)
+	- No. of Wicket			(Per wicket 5 points)
+	- No. of stumping		(Per stumping 3 points)
+
+4) Store all data into SQLite database								Marks (20)
+5) Display player name in ListView descending order of Total Points	Marks (15)
+6) Click any player and move to another screen to calculate points 	Marks (15)
+7) Logout
+
+Note : Appropraite screen design and data validation
+
+
+Error:Error converting bytecode to dex:
+Cause: Dex cannot parse version 52 byte code.
+This is caused by library dependencies that have been compiled using Java 8 or above.
+If you are using the 'java' gradle plugin in a library submodule add 
+targetCompatibility = '1.7'
+sourceCompatibility = '1.7'
+to that submodule's build.gradle file.
+
+
+
+Robinson Matsukuma <rmatsukuma@gmail.com>
+
+chrome://apps/

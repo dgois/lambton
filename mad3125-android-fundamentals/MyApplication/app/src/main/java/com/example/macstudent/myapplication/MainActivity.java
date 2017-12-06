@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements Validator.Validat
     @Email
     @InjectView(R.id.edtEmail)
     EditText edtEmail;
+
     @InjectView(R.id.btnValidate)
     Button btnValidate;
 

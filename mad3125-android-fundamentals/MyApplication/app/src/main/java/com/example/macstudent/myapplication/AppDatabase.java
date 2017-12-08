@@ -11,5 +11,7 @@ import android.content.Context;
 @Database(entities = {User.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
+    private static AppDatabase instance;
+
     public abstract UserDAO userDAO();
 }

@@ -1,8 +1,10 @@
 package com.example.macstudent.myapplication;
 
 import android.arch.persistence.room.Room;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements Validator.Validat
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "db_denis").build();
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "db_denis").build();
 
         final Validator validator = new Validator(this);
         validator.setValidationListener(this);
@@ -54,11 +56,28 @@ public class MainActivity extends AppCompatActivity implements Validator.Validat
 
     @Override
     public void onValidationSucceeded() {
-        db.userDAO().insertAll(new User(edtEmail.getText().toString()));
+        String email = edtEmail.getText().toString();
 
-        String users = Arrays.toString(db.userDAO().getAll().toArray());
+        new AsyncTask<Void, Void, Integer>() {
 
-        Toast.makeText(this, "Yay! we got it right! " + users, Toast.LENGTH_SHORT).show();
+            @Override
+            protected Integer doInBackground(Void... voids) {
+                db.userDAO().insertAll(new User(email));
+                return 0;
+            }
+        }.execute();
+
+        new AsyncTask<Void, Void, Integer>() {
+
+            @Override
+            protected Integer doInBackground(Void... voids) {
+                String users = Arrays.toString(db.userDAO().getAll().toArray());
+                Log.i("DENIS", "Yay! we got it right! "+ users);
+                return null;
+            }
+        }.execute();
+
+
     }
 
     @Override

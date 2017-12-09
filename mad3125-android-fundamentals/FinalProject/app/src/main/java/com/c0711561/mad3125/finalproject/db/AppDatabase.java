@@ -53,11 +53,14 @@ public abstract class AppDatabase extends RoomDatabase {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         super.onCreate(db);
-                        executors.diskIO().execute(() -> {
-                            // Generate the data for pre-population
-                            AppDatabase database = AppDatabase.getInstance(appContext, executors);
-                            // notify that the database was created and it's ready to be used
-                            database.setDatabaseCreated();
+                        executors.diskIO().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Generate the data for pre-population
+                                AppDatabase database = AppDatabase.getInstance(appContext, executors);
+                                // notify that the database was created and it's ready to be used
+                                database.setDatabaseCreated();
+                            }
                         });
                     }
                 }).build();

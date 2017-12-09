@@ -1,4 +1,4 @@
-package com.c0711561.mad3125.finalproject;
+package com.c0711561.mad3125.finalproject.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

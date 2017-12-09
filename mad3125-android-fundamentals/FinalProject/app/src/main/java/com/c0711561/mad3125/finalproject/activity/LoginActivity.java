@@ -1,12 +1,15 @@
-package com.c0711561.mad3125.finalproject;
+package com.c0711561.mad3125.finalproject.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.c0711561.mad3125.finalproject.R;
 import com.c0711561.mad3125.finalproject.model.User;
 import com.c0711561.mad3125.finalproject.repository.UserRepository;
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -26,17 +29,17 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
     @NotEmpty
     @Email
     @InjectView(R.id.edtEmailLogin)
-    EditText edtEmailLogin;
+    TextInputEditText edtEmailLogin;
 
     @NotEmpty
     @Password
     @InjectView(R.id.edtPassword)
-    EditText edtPassword;
+    TextInputEditText edtPassword;
 
     @InjectView(R.id.btnLogin)
     Button btnLogin;
 
-    @InjectView(R.id.btnSignIn)
+    @InjectView(R.id.btnSignUp)
     Button btnSignIn;
 
     private Validator validator;
@@ -50,17 +53,16 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
         validator = new Validator(this);
         validator.setValidationListener(this);
         userRepository = new UserRepository(getApplication());
-//        userRepository.insertAll(new User("a@a.com", "123456", "USER"));
-
     }
 
-    @OnClick({R.id.btnLogin, R.id.btnSignIn})
+    @OnClick({R.id.btnLogin, R.id.btnSignUp})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnLogin:
                 validator.validate();
                 break;
-            case R.id.btnSignIn:
+            case R.id.btnSignUp:
+                startActivityForResult(new Intent(LoginActivity.this, SignUpActivity.class), SignUpActivity.SIGNUP_REQUEST_CODE);
                 break;
         }
     }
@@ -69,7 +71,9 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
     public void onValidationSucceeded() {
         User user = userRepository.findByEmail(edtEmailLogin.getText().toString());
         if (user != null) {
-            Toast.makeText(this, "Proceed", Toast.LENGTH_SHORT).show();
+            Intent nextIntent = new Intent(this, ProblemListActivity.class);
+            nextIntent.putExtra("loggedUserEmail", user.getEmail());
+            startActivity(nextIntent);
         } else {
             Toast.makeText(this, "Invalid", Toast.LENGTH_SHORT).show();
         }

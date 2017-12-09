@@ -7,17 +7,20 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
+import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.c0711561.mad3125.finalproject.converter.DateConverter;
+import com.c0711561.mad3125.finalproject.dao.ProblemDao;
 import com.c0711561.mad3125.finalproject.dao.UserDao;
+import com.c0711561.mad3125.finalproject.model.Problem;
 import com.c0711561.mad3125.finalproject.model.User;
 
 /**
  * Created by macstudent on 2017-12-07.
  */
-@Database(entities = {User.class}, version = 1)
+@Database(entities = {User.class, Problem.class}, version = 3)
 @TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -25,6 +28,8 @@ public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance;
 
     public abstract UserDao userDao();
+
+    public abstract ProblemDao problemDao();
 
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 
@@ -43,6 +48,7 @@ public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase buildDatabase(final Context appContext,
                                              final AppExecutors executors) {
         return Room.databaseBuilder(appContext, AppDatabase.class, DATABASE_NAME)
+                .fallbackToDestructiveMigration()
                 .addCallback(new RoomDatabase.Callback() {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
@@ -52,10 +58,18 @@ public abstract class AppDatabase extends RoomDatabase {
                             AppDatabase database = AppDatabase.getInstance(appContext, executors);
                             // notify that the database was created and it's ready to be used
                             database.setDatabaseCreated();
+                            database.userDao().insertAll(new User("a@a.com", "123456", "USER"));
                         });
                     }
                 }).build();
     }
+
+    private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("DROP DATABASE `issuefinder-db`;");
+        }
+    };
 
     private void setDatabaseCreated(){
         mIsDatabaseCreated.postValue(true);

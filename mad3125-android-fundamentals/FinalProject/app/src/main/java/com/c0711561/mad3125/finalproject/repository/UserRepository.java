@@ -43,22 +43,6 @@ public class UserRepository implements UserDao {
     }
 
     @Override
-    public List<User> loadAllByIds(int[] userIds) {
-//        new AsyncTask<Integer, Void, List<User>>() {
-//
-//            @Override
-//            protected List<User> doInBackground(Integer... userIds) {
-//                int[] ids = new int[userIds.length];
-//                for (int i = 0; i < userIds.length; i++) {
-//                    ids[i] = userIds[i];
-//                }
-//                return userDao.loadAllByIds(ids);
-//            }
-//        }.execute(userIds).get();
-        return null;
-    }
-
-    @Override
     public User findByEmail(String email) {
         User user = null;
         try {

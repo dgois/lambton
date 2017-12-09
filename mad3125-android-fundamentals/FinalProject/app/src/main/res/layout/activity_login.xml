@@ -7,14 +7,14 @@
     android:orientation="vertical"
     android:layout_margin="16dp"
     android:gravity="center"
-    tools:context="com.c0711561.mad3125.finalproject.LoginActivity">
+    tools:context="com.c0711561.mad3125.finalproject.activity.LoginActivity">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_layout_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/edtEmailLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/edtPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,9 +47,9 @@
         android:layout_marginTop="50dp"/>
 
     <Button
-        android:id="@+id/btnSignIn"
+        android:id="@+id/btnSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SignIn" />
+        android:text="Sign up" />
 
 </LinearLayout>

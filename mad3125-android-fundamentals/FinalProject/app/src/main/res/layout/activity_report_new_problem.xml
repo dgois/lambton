@@ -7,56 +7,64 @@
     android:orientation="vertical"
     android:layout_margin="16dp"
     android:gravity="center"
-    tools:context="com.c0711561.mad3125.finalproject.activity.SignUpActivity">
+    tools:context="com.c0711561.mad3125.finalproject.activity.ReportNewProblemActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:padding="7dp"
+        android:scaleType="fitXY"
+        app:srcCompat="@mipmap/ic_launcher" />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/signup_layout_email"
+        android:id="@+id/new_problem_layout_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/edtSignUpEmail"
+            android:id="@+id/edtNewProblemTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textEmailAddress"
-            android:hint="Enter your email"/>
+            android:inputType="text"
+            android:hint="Enter the title"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/signup_layout_pass"
+        android:id="@+id/new_problem_layout_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/edtSignUpPassword"
+            android:id="@+id/edtNewProblemDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPassword"
-            android:hint="Enter your password"
+            android:inputType="text"
+            android:hint="Enter the description"
             android:layout_marginTop="15dp"
             />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/signup_layout_pass_confirmation"
+        android:id="@+id/new_problem_layout_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/edtSignUpPasswordConfirmation"
+            android:id="@+id/edtNewProblemCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPassword"
-            android:hint="Confirm your password"
+            android:inputType="text"
+            android:hint="Enter the category"
             android:layout_marginTop="15dp"
             />
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/btnSignUpSave"
+        android:id="@+id/btnNewProblemSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Save"

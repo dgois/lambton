@@ -1,11 +1,21 @@
 package com.c0711561.mad3125.finalproject.activity;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
+import android.location.LocationManager;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -21,10 +31,14 @@ import android.widget.Toast;
 import com.c0711561.mad3125.finalproject.R;
 import com.c0711561.mad3125.finalproject.model.Problem;
 import com.c0711561.mad3125.finalproject.repository.ProblemRepository;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -43,6 +57,7 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
     public static final int REPORTED_NEW_PROBLEM = 34;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int PERMISSION_REQUEST_CODE = 200;
+    private static final int PERMISSION_ACCESS_COARSE_LOCATION = 2;
 
     @NotEmpty
     @InjectView(R.id.edtNewProblemTitle)
@@ -65,7 +80,6 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
     private Validator validator;
     private ProblemRepository problemRepository;
     private Uri uriPhoto;
-    private String currentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,23 +100,34 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
     public void onViewClickedImage() {
         Log.e("DENIS", "Image view");
         if (checkPermission()) {
-            Toast.makeText(this,"Permission already granted.", Toast.LENGTH_LONG).show();
             dispatchTakePictureIntent();
-
         } else {
-
-            Toast.makeText(this, "Please request permission.", Toast.LENGTH_LONG).show();
-            requestPermission();
+            requestPermission(CAMERA);
         }
     }
 
     @Override
     public void onValidationSucceeded() {
-        Problem newProblem = new Problem(edtNewProblemTitle.getText().toString(), edtNewProblemDescription.getText().toString(), "Location test", edtNewProblemCategory.getText().toString(), new byte[10], new Date());
+
+        Problem newProblem = new Problem(
+                edtNewProblemTitle.getText().toString(),
+                edtNewProblemDescription.getText().toString(),
+                "Location test",
+                edtNewProblemCategory.getText().toString(),
+                convertImageToBytes(),
+                new Date());
         long createdProblemId = problemRepository.insert(newProblem);
         getIntent().putExtra("createdProblemId", createdProblemId);
         setResult(RESULT_OK, getIntent());
         finish();
+    }
+
+    private byte[] convertImageToBytes() {
+        BitmapDrawable bitmapDrawable = ((BitmapDrawable) imageView.getDrawable());
+        Bitmap bitmap = bitmapDrawable.getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return stream.toByteArray();
     }
 
     @Override
@@ -119,8 +144,8 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
         }
     }
 
-    private void requestPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{CAMERA}, PERMISSION_REQUEST_CODE);
+    private void requestPermission(String permission) {
+        ActivityCompat.requestPermissions(this, new String[]{permission}, PERMISSION_REQUEST_CODE);
 
     }
 
@@ -132,28 +157,24 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-
             File photo = null;
             try {
                 photo = createImageFile();
             } catch (IOException e) {
-                Log.e("DENIS", "Image view");
                 Log.e("TAKE_PHOTO", e.getMessage());
             }
 
             if (photo != null) {
-                Uri photoURI = FileProvider.getUriForFile(this, "com.c0711561.mad3125.finalproject", photo);
+                Uri photoURI = FileProvider.getUriForFile(ReportNewProblemActivity.this, "com.c0711561.mad3125.finalproject", photo);
 
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 takePictureIntent.putExtra("test", "Denis");
                 uriPhoto = photoURI;
-                Log.e("DENIS", "Set URI on Extras. URI: " + photoURI.toString());
 
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             } else {
-                Log.e("DENIS", "Photo is null");
+                Log.e("TAKE_PHOTO", "Photo is null");
             }
-
         }
     }
 
@@ -163,8 +184,15 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
 
-        currentPhotoPath = image.getAbsolutePath();
         return image;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+                imageView.setImageURI(uriPhoto);
+        } else {
+            Log.e("TAKE_PHOTO", "The response from take pickture intent is not ok");
+        }
+    }
 }

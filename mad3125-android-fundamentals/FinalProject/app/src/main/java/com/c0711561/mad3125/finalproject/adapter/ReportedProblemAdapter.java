@@ -1,14 +1,18 @@
 package com.c0711561.mad3125.finalproject.adapter;
 
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.c0711561.mad3125.finalproject.R;
 import com.c0711561.mad3125.finalproject.model.Problem;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,6 +35,10 @@ public class ReportedProblemAdapter extends RecyclerView.Adapter<ReportedProblem
         myViewHolder.title.setText(problem.getTitle());
         myViewHolder.category.setText(problem.getCategory());
         myViewHolder.location.setText(problem.getLocation());
+        myViewHolder.dateEvent.setText(formatDate(problem.getHappenedOn()));
+        myViewHolder.problemPhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        myViewHolder.problemPhoto.setAdjustViewBounds(true);
+        myViewHolder.problemPhoto.setImageBitmap(BitmapFactory.decodeByteArray(problem.getImage(), 0, problem.getImage().length));
     }
 
     @Override
@@ -39,17 +47,25 @@ public class ReportedProblemAdapter extends RecyclerView.Adapter<ReportedProblem
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, category, location;
+        public TextView title, category, location, dateEvent;
+        public ImageView problemPhoto;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             category = itemView.findViewById(R.id.category);
             location = itemView.findViewById(R.id.location);
+            dateEvent = itemView.findViewById(R.id.dateEvent);
+            problemPhoto = itemView.findViewById(R.id.problemImage);
         }
     }
 
     public ReportedProblemAdapter(List<Problem> problems) {
         this.problems = problems;
+    }
+
+    private String formatDate(Date date) {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+        return dateFormatter.format(date);
     }
 }

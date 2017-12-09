@@ -53,6 +53,20 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
         validator = new Validator(this);
         validator.setValidationListener(this);
         userRepository = new UserRepository(getApplication());
+
+        createAdminUserAndSetLogin();
+    }
+
+    private void createAdminUserAndSetLogin() {
+
+        User foundUser = userRepository.findByEmail("a@a.com");
+        if (foundUser == null) {
+            User user = new User("a@a.com", "123456", "USER");
+            userRepository.insertAll(user);
+        }
+
+        edtEmailLogin.setText("a@a.com");
+        edtPassword.setText("123456");
     }
 
     @OnClick({R.id.btnLogin, R.id.btnSignUp})
@@ -75,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
             nextIntent.putExtra("loggedUserEmail", user.getEmail());
             startActivity(nextIntent);
         } else {
-            Toast.makeText(this, "Invalid", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "User does not exist", Toast.LENGTH_SHORT).show();
         }
     }
 

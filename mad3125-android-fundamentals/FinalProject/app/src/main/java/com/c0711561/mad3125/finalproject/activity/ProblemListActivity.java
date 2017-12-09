@@ -9,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.c0711561.mad3125.finalproject.R;
@@ -46,31 +47,37 @@ public class ProblemListActivity extends AppCompatActivity {
             }
         });
 
-        problems = problemRepository.getAll();
+        createProblemList();
 
+        updateProblemList();
+    }
+
+    private void createProblemList() {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewProblems);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
+    }
 
+    private void updateProblemList() {
+        problems = problemRepository.getAll();
         reportedProblemAdapter = new ReportedProblemAdapter(problems);
         recyclerView.setAdapter(reportedProblemAdapter);
-        reportedProblemAdapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Log.d("DENIS", "size : " + problems.size() + " | before onActivityResult");
         if(requestCode == ReportNewProblemActivity.REPORTED_NEW_PROBLEM && resultCode == RESULT_OK) {
             Snackbar.make(findViewById(R.id.problemListCoordinatorLayout), "New Problem Success Reported! ", Snackbar.LENGTH_LONG).show();
         }
+        updateProblemList();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        problems = problemRepository.getAll();
-        reportedProblemAdapter.notifyDataSetChanged();
+        updateProblemList();
     }
 }

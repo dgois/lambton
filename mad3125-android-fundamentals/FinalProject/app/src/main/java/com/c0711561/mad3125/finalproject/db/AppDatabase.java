@@ -58,7 +58,6 @@ public abstract class AppDatabase extends RoomDatabase {
                             AppDatabase database = AppDatabase.getInstance(appContext, executors);
                             // notify that the database was created and it's ready to be used
                             database.setDatabaseCreated();
-                            database.userDao().insertAll(new User("a@a.com", "123456", "USER"));
                         });
                     }
                 }).build();

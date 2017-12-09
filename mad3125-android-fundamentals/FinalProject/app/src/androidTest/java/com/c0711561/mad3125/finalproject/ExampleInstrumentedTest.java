@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.macstudent.finalproject", appContext.getPackageName());
+        assertEquals("com.c0711561.mad3125.finalproject", appContext.getPackageName());
     }
 }

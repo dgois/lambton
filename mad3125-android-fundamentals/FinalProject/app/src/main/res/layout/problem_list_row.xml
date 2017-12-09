@@ -50,10 +50,19 @@
             tools:text="Title" />
 
         <TextView
+            android:id="@+id/dateEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="false"
+            android:textColor="@color/title"
+            android:layout_below="@id/title"
+            tools:text="Picuture Date" />
+
+        <TextView
             android:id="@+id/location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/title"
+            android:layout_below="@id/dateEvent"
             tools:text="Location"
             />
 
@@ -65,14 +74,7 @@
             android:textColor="@color/title"
             tools:text="Category" />
 
-        <TextView
-            android:id="@+id/dateEvent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/title"
-            android:layout_below="@id/category"
-            tools:text="Picuture Date" />
+
 
     </RelativeLayout>
 

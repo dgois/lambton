@@ -2,6 +2,7 @@ package com.c0711561.mad3125.finalproject.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
@@ -25,6 +26,12 @@ public class Problem {
     private String location;
 
     @ColumnInfo
+    private double latitude;
+
+    @ColumnInfo
+    private double longitude;
+
+    @ColumnInfo
     private String category;
 
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
@@ -33,15 +40,34 @@ public class Problem {
     @ColumnInfo
     private Date happenedOn;
 
+    @ColumnInfo
+    private String solverComments;
+
     public Problem() {}
 
-    public Problem(String title, String description, String location, String category, byte[] image, Date happenedOn) {
+    @Ignore
+    public Problem(String title, String description, String location, double latitude, double longitude, String category, byte[] image, Date happenedOn) {
         this.title = title;
         this.description = description;
         this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.category = category;
         this.image = image;
         this.happenedOn = happenedOn;
+    }
+
+    @Ignore
+    public Problem(String title, String description, String location, double latitude, double longitude, String category, byte[] image, Date happenedOn, String solverComments) {
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.category = category;
+        this.image = image;
+        this.happenedOn = happenedOn;
+        this.solverComments = solverComments;
     }
 
     public int getId() {
@@ -100,6 +126,30 @@ public class Problem {
         this.happenedOn = happenedOn;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getSolverComments() {
+        return solverComments;
+    }
+
+    public void setSolverComments(String solverComments) {
+        this.solverComments = solverComments;
+    }
+
     @Override
     public String toString() {
         return "Problem{" +
@@ -107,7 +157,11 @@ public class Problem {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", location='" + location + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 ", category='" + category + '\'' +
+                ", happenedOn=" + happenedOn +
+                ", solverComments='" + solverComments + '\'' +
                 '}';
     }
 }

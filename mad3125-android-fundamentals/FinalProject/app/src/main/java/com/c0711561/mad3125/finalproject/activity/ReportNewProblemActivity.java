@@ -1,18 +1,15 @@
 package com.c0711561.mad3125.finalproject.activity;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,6 +28,10 @@ import android.widget.Toast;
 import com.c0711561.mad3125.finalproject.R;
 import com.c0711561.mad3125.finalproject.model.Problem;
 import com.c0711561.mad3125.finalproject.repository.ProblemRepository;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Places;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
@@ -41,6 +42,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -49,12 +51,16 @@ import butterknife.OnClick;
 import static android.Manifest.permission.CAMERA;
 
 
-public class ReportNewProblemActivity extends AppCompatActivity implements Validator.ValidationListener {
+public class ReportNewProblemActivity extends AppCompatActivity implements Validator.ValidationListener,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     public static final int REPORTED_NEW_PROBLEM = 34;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int PERMISSION_REQUEST_CODE = 200;
     private static final int PERMISSION_ACCESS_COARSE_LOCATION = 2;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private boolean mLocationPermissionGranted;
 
     @NotEmpty
     @InjectView(R.id.edtNewProblemTitle)
@@ -77,6 +83,8 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
     private Validator validator;
     private ProblemRepository problemRepository;
     private Uri uriPhoto;
+    private GoogleApiClient googleApiClient;
+    private Location mLastKnownLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +94,16 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
         validator = new Validator(this);
         validator.setValidationListener(this);
         problemRepository = new ProblemRepository(getApplication());
+
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */,
+                        this /* OnConnectionFailedListener */)
+                .addConnectionCallbacks(this)
+                .addApi(LocationServices.API)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .build();
+        googleApiClient.connect();
     }
 
     @OnClick(R.id.btnNewProblemSave)
@@ -109,7 +127,9 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
         Problem newProblem = new Problem(
                 edtNewProblemTitle.getText().toString(),
                 edtNewProblemDescription.getText().toString(),
-                "Location test",
+                getAddressBasedOnLatitudeAndLongitude(),
+                mLastKnownLocation.getLatitude(),
+                mLastKnownLocation.getLongitude(),
                 edtNewProblemCategory.getText().toString(),
                 convertImageToBytes(),
                 new Date());
@@ -173,6 +193,13 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
                 Log.e("TAKE_PHOTO", "Photo is null");
             }
         }
+
+        Log.d("DENIS", "Get device location");
+        getDeviceLocation();
+        Log.d("DENIS", "DONE");
+        if (mLastKnownLocation != null) {
+            Log.d("DENIS", "lat : " + mLastKnownLocation.getLatitude() + " - long: " + mLastKnownLocation.getLongitude());
+        }
     }
 
     private File createImageFile() throws IOException {
@@ -191,5 +218,74 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
         } else {
             Log.e("TAKE_PHOTO", "The response from take pickture intent is not ok");
         }
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        Log.d("NEW_PROBLEM", "On connected");
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Log.d("NEW_PROBLEM", "Play services connection suspended");
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d("NEW_PROBLEM", "Play services connection failed: ConnectionResult.getErrorCode() = "
+                + connectionResult.getErrorCode());
+    }
+
+    /**
+     * Gets the current location of the device, and positions the map's camera.
+     */
+    private void getDeviceLocation() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
+        if (mLocationPermissionGranted) {
+            mLastKnownLocation = LocationServices.FusedLocationApi
+                    .getLastLocation(googleApiClient);
+        }
+    }
+
+    private String getAddressBasedOnLatitudeAndLongitude() {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        // Address found using the Geocoder.
+        List<Address> addresses = null;
+
+        try {
+            addresses = geocoder.getFromLocation(
+                    mLastKnownLocation.getLatitude(),
+                    mLastKnownLocation.getLongitude(),
+                    // In this sample, we get just a single address.
+                    1);
+            return addresses.get(0).getAddressLine(0);
+        } catch (IOException ioException) {
+            Log.e("NEW_PROBLEM", ioException.getMessage());
+        } catch (IllegalArgumentException illegalArgumentException) {
+            // Catch invalid latitude or longitude values.
+            Log.e("NEW_PROBLEM", "Latitude = " + mLastKnownLocation.getLatitude() +
+                    ", Longitude = " + mLastKnownLocation.getLongitude(), illegalArgumentException);
+        }
+
+
+        return "Default Address";
+
     }
 }

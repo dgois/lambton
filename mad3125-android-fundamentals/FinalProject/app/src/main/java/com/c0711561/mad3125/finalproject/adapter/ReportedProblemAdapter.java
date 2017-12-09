@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.c0711561.mad3125.finalproject.R;
+import com.c0711561.mad3125.finalproject.listener.OnItemClickListener;
 import com.c0711561.mad3125.finalproject.model.Problem;
 
 import java.text.SimpleDateFormat;
@@ -23,6 +24,14 @@ public class ReportedProblemAdapter extends RecyclerView.Adapter<ReportedProblem
 
     private List<Problem> problems;
 
+    public ReportedProblemAdapter(List<Problem> problems) {
+        this.problems = problems;
+    }
+
+    public ReportedProblemAdapter(List<Problem> problems, OnItemClickListener listener) {
+        this.problems = problems;
+    }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int i) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.problem_list_row, parent, false);
@@ -30,15 +39,15 @@ public class ReportedProblemAdapter extends RecyclerView.Adapter<ReportedProblem
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(MyViewHolder holder, int i) {
         Problem problem = problems.get(i);
-        myViewHolder.title.setText(problem.getTitle());
-        myViewHolder.category.setText(problem.getCategory());
-        myViewHolder.location.setText(problem.getLocation());
-        myViewHolder.dateEvent.setText(formatDate(problem.getHappenedOn()));
-        myViewHolder.problemPhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        myViewHolder.problemPhoto.setAdjustViewBounds(true);
-        myViewHolder.problemPhoto.setImageBitmap(BitmapFactory.decodeByteArray(problem.getImage(), 0, problem.getImage().length));
+        holder.title.setText(problem.getTitle());
+        holder.category.setText(problem.getCategory());
+        holder.location.setText(problem.getLocation());
+        holder.dateEvent.setText(formatDate(problem.getHappenedOn()));
+        holder.problemPhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        holder.problemPhoto.setAdjustViewBounds(true);
+        holder.problemPhoto.setImageBitmap(BitmapFactory.decodeByteArray(problem.getImage(), 0, problem.getImage().length));
     }
 
     @Override
@@ -58,10 +67,7 @@ public class ReportedProblemAdapter extends RecyclerView.Adapter<ReportedProblem
             dateEvent = itemView.findViewById(R.id.dateEvent);
             problemPhoto = itemView.findViewById(R.id.problemImage);
         }
-    }
 
-    public ReportedProblemAdapter(List<Problem> problems) {
-        this.problems = problems;
     }
 
     private String formatDate(Date date) {

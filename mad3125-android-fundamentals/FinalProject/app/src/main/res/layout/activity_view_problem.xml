@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="16dp"
+    android:layout_height="match_parent"
+    tools:context="com.c0711561.mad3125.finalproject.activity.ViewProblemActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:padding="7dp"
+        android:scaleType="fitXY"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView style="@style/HeadDetail"
+            android:layout_marginTop="10dp"
+            android:id="@+id/labelTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            />
+        <TextView style="@style/HeadDetail"
+            android:layout_marginTop="10dp"
+            android:id="@+id/labelCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:layout_alignParentRight="true"
+            />
+        <View style="@style/Divider"
+            android:id="@+id/titleDivider"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/labelTitle"/>
+        <TextView
+            android:id="@+id/viewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title of Problem"
+            android:layout_below="@+id/titleDivider" />
+        <TextView
+            android:id="@+id/viewCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category of Problem"
+            android:layout_below="@+id/titleDivider"
+            android:layout_alignParentRight="true"/>
+
+        <TextView style="@style/HeadDetail"
+            android:layout_marginTop="16dp"
+            android:id="@+id/labelDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:layout_below="@id/viewTitle"/>
+        <View style="@style/Divider"
+            android:id="@+id/descriptionDivider"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/labelDescription"/>
+        <TextView
+            android:id="@+id/viewDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:layout_below="@id/descriptionDivider"/>
+
+        <TextView style="@style/HeadDetail"
+            android:layout_marginTop="16dp"
+            android:id="@+id/labelLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:layout_below="@id/viewDescription"/>
+        <View style="@style/Divider"
+            android:id="@+id/locationDivider"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/labelLocation"/>
+        <TextView
+            android:id="@+id/viewLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:layout_below="@id/locationDivider"/>
+        <TextView
+            android:id="@+id/viewLocationOnMaps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View on Maps"
+            android:layout_below="@+id/locationDivider"
+            android:layout_alignParentRight="true"/>
+
+        <TextView style="@style/HeadDetail"
+            android:layout_marginTop="16dp"
+            android:id="@+id/labelSolverComments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Solver Comments"
+            android:layout_below="@id/viewLocation"/>
+        <View style="@style/Divider"
+            android:id="@+id/commentsDivider"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/labelSolverComments"/>
+        <TextView
+            android:id="@+id/viewSolverComments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:layout_below="@id/commentsDivider"/>
+
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>

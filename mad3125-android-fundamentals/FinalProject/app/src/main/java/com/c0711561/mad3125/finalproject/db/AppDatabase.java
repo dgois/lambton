@@ -20,7 +20,7 @@ import com.c0711561.mad3125.finalproject.model.User;
 /**
  * Created by macstudent on 2017-12-07.
  */
-@Database(entities = {User.class, Problem.class}, version = 3)
+@Database(entities = {User.class, Problem.class}, version = 5)
 @TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 

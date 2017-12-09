@@ -2,14 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.c0711561.mad3125.finalproject">
 
-    <uses-feature android:name="android.hardware.camera"
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
 
     <application
         android:name=".BasicApp"
@@ -34,7 +35,7 @@
             android:name=".activity.ProblemListActivity"
             android:label="@string/title_activity_problem_list"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.ReportNewProblemActivity"></activity>
+        <activity android:name=".activity.ReportNewProblemActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -45,6 +46,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity android:name=".activity.ViewProblemActivity"></activity>
     </application>
 
 </manifest>

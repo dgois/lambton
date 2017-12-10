@@ -199,6 +199,10 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
         Log.d("DENIS", "DONE");
         if (mLastKnownLocation != null) {
             Log.d("DENIS", "lat : " + mLastKnownLocation.getLatitude() + " - long: " + mLastKnownLocation.getLongitude());
+        } else {
+            mLastKnownLocation = new Location("default");
+            mLastKnownLocation.setLatitude(37.4220);
+            mLastKnownLocation.setLongitude(-122.0840);
         }
     }
 

@@ -1,5 +1,7 @@
 package com.c0711561.mad3125.finalproject.listener;
 
+import android.view.View;
+
 import com.c0711561.mad3125.finalproject.model.Problem;
 
 /**
@@ -8,5 +10,5 @@ import com.c0711561.mad3125.finalproject.model.Problem;
 
 public interface OnItemClickListener {
 
-    void onItemClick(Problem problem);
+    void onItemClick(View view, int position);
 }

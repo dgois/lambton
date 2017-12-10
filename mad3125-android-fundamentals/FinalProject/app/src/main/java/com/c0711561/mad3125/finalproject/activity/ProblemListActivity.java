@@ -11,9 +11,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.c0711561.mad3125.finalproject.R;
 import com.c0711561.mad3125.finalproject.adapter.ReportedProblemAdapter;
+import com.c0711561.mad3125.finalproject.listener.OnItemClickListener;
+import com.c0711561.mad3125.finalproject.listener.RecyclerTouchListener;
 import com.c0711561.mad3125.finalproject.model.Problem;
 import com.c0711561.mad3125.finalproject.repository.ProblemRepository;
 
@@ -57,6 +60,14 @@ public class ProblemListActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this, recyclerView, new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent viewProblemIntent = new Intent(ProblemListActivity.this, ViewProblemActivity.class);
+                viewProblemIntent.putExtra("problemId", problems.get(position).getId());
+                startActivity(viewProblemIntent);
+            }
+        }));
     }
 
     private void updateProblemList() {

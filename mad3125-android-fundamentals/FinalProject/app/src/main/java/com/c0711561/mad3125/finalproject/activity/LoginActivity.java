@@ -61,10 +61,14 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
 
         User foundUser = userRepository.findByEmail("a@a.com");
         if (foundUser == null) {
-            User user = new User("a@a.com", "123456", "USER");
-            userRepository.insertAll(user);
+            User reporter = new User("a@a.com", "123456", "REPORTER");
+            userRepository.insertAll(reporter);
         }
-
+        foundUser = userRepository.findByEmail("b@b.com");
+        if (foundUser == null) {
+            User solver = new User("b@b.com", "123456", "SOLVER");
+            userRepository.insertAll(solver);
+        }
         edtEmailLogin.setText("a@a.com");
         edtPassword.setText("123456");
     }
@@ -85,9 +89,15 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
     public void onValidationSucceeded() {
         User user = userRepository.findByEmail(edtEmailLogin.getText().toString());
         if (user != null) {
-            Intent nextIntent = new Intent(this, ProblemListActivity.class);
-            nextIntent.putExtra("loggedUserEmail", user.getEmail());
-            startActivity(nextIntent);
+            if ("REPORTER".equals(user.getRole())) {
+                Intent nextIntent = new Intent(this, ProblemListActivity.class);
+                nextIntent.putExtra("loggedUserEmail", user.getEmail());
+                startActivity(nextIntent);
+            } else {
+                Intent nextIntent = new Intent(this, SolverProblemListActivity.class);
+                nextIntent.putExtra("loggedUserEmail", user.getEmail());
+                startActivity(nextIntent);
+            }
         } else {
             Toast.makeText(this, "User does not exist", Toast.LENGTH_SHORT).show();
         }

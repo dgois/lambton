@@ -119,6 +119,14 @@
             android:text="Title"
             android:layout_below="@id/commentsDivider"/>
 
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edtSolverComments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/commentsDivider"
+            android:ems="10"
+            android:inputType="textMultiLine"/>
+
     </RelativeLayout>
 
 

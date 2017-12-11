@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.c0711561.mad3125.finalproject.R;
@@ -18,6 +21,7 @@ import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -45,9 +49,12 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
 
     @InjectView(R.id.btnSignUpSave)
     Button btnSignUpSave;
+    @InjectView(R.id.usersType)
+    Spinner usersType;
 
     private Validator validator;
     private UserRepository userRepository;
+    private ArrayAdapter<CharSequence> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +64,20 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
         validator = new Validator(this);
         validator.setValidationListener(this);
         userRepository = new UserRepository(getApplication());
+        populateSpinnerUsersType();
+    }
+
+    private void populateSpinnerUsersType() {
+        adapter = ArrayAdapter.createFromResource(this, R.array.usersType, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        usersType.setAdapter(adapter);
     }
 
     @Override
     public void onValidationSucceeded() {
         Toast.makeText(this, "GetBack", Toast.LENGTH_SHORT).show();
 
-        User newUser = new User(edtSignUpEmail.getText().toString(), edtSignUpPassword.getText().toString(), "USER");
+        User newUser = new User(edtSignUpEmail.getText().toString(), edtSignUpPassword.getText().toString(), adapter.getItem(usersType.getSelectedItemPosition()).toString());
         userRepository.insertAll(newUser);
 
         finish();

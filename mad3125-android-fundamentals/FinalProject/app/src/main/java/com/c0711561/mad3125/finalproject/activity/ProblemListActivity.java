@@ -71,6 +71,7 @@ public class ProblemListActivity extends AppCompatActivity implements RecyclerIt
             public void onItemClick(View view, int position) {
                 Intent viewProblemIntent = new Intent(ProblemListActivity.this, ViewProblemActivity.class);
                 viewProblemIntent.putExtra("problemId", problems.get(position).getId());
+                viewProblemIntent.putExtra("loggedUserEmail", loggedUserEmail);
                 startActivity(viewProblemIntent);
             }
         }));
@@ -88,7 +89,6 @@ public class ProblemListActivity extends AppCompatActivity implements RecyclerIt
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("DENIS", "size : " + problems.size() + " | before onActivityResult");
         if(requestCode == ReportNewProblemActivity.REPORTED_NEW_PROBLEM && resultCode == RESULT_OK) {
             Snackbar.make(findViewById(R.id.problemListCoordinatorLayout), "New Problem Success Reported! ", Snackbar.LENGTH_LONG).show();
         }

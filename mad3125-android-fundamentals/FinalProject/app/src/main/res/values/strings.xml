@@ -3,4 +3,9 @@
     <string name="title_activity_problem_list">ProblemListActivity</string>
     <string name="title_activity_report_new_problem">ReportNewProblemActivity</string>
     <string name="title_activity_problems_maps">Map</string>
+
+    <string-array name="usersType">
+        <item>REPORTER</item>
+        <item>SOLVER</item>
+    </string-array>
 </resources>

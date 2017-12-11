@@ -55,6 +55,18 @@
             />
     </android.support.design.widget.TextInputLayout>
 
+    <TextView android:id="@+id/select"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:text="Select the User Type" />
+
+    <Spinner
+        android:id="@+id/usersType"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"/>
+
     <Button
         android:id="@+id/btnSignUpSave"
         android:layout_width="match_parent"

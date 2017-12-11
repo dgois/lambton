@@ -92,4 +92,24 @@ public class ProblemRepository implements ProblemDao {
             }
         }.execute(problem);
     }
+
+    @Override
+    public int update(Problem problem) {
+        try {
+            return new AsyncTask<Problem, Void, Integer>() {
+
+                @Override
+                protected Integer doInBackground(Problem... problems) {
+                    return problemDao.update(problems[0]);
+                }
+            }.execute(problem).get();
+        } catch (InterruptedException e) {
+            Log.e("REPOSITORY", e.getMessage());
+        } catch (ExecutionException e) {
+            Log.e("REPOSITORY", e.getMessage());
+        }
+        return 0;
+    }
+
+
 }

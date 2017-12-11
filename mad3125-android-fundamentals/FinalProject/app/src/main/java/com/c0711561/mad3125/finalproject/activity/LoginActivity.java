@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -61,12 +62,12 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
 
         User foundUser = userRepository.findByEmail("a@a.com");
         if (foundUser == null) {
-            User reporter = new User("a@a.com", "123456", "REPORTER");
+            User reporter = new User("a@a.com", "123456", User.roleTypes.REPORTER.name());
             userRepository.insertAll(reporter);
         }
         foundUser = userRepository.findByEmail("b@b.com");
         if (foundUser == null) {
-            User solver = new User("b@b.com", "123456", "SOLVER");
+            User solver = new User("b@b.com", "123456", User.roleTypes.SOLVER.name());
             userRepository.insertAll(solver);
         }
         edtEmailLogin.setText("a@a.com");
@@ -89,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
     public void onValidationSucceeded() {
         User user = userRepository.findByEmail(edtEmailLogin.getText().toString());
         if (user != null) {
-            if ("REPORTER".equals(user.getRole())) {
+            if (user.isReporter()) {
                 Intent nextIntent = new Intent(this, ProblemListActivity.class);
                 nextIntent.putExtra("loggedUserEmail", user.getEmail());
                 startActivity(nextIntent);

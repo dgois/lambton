@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.c0711561.mad3125.finalproject.model.Problem;
 
@@ -27,4 +28,7 @@ public interface ProblemDao {
 
     @Delete
     void delete(Problem problem);
+
+    @Update
+    int update(Problem problem);
 }

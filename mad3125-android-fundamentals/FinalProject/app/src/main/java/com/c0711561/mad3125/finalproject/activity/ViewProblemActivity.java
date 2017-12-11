@@ -6,8 +6,15 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +42,10 @@ public class ViewProblemActivity extends AppCompatActivity {
     TextView viewLocation;
     @InjectView(R.id.viewLocationOnMaps)
     TextView viewLocationOnMaps;
+    @InjectView(R.id.viewStatus)
+    TextView viewStatus;
+    @InjectView(R.id.spiStatus)
+    Spinner spiStatus;
     @InjectView(R.id.viewSolverComments)
     TextView viewSolverComments;
     @InjectView(R.id.edtSolverComments)
@@ -55,7 +66,7 @@ public class ViewProblemActivity extends AppCompatActivity {
         userRepository = new UserRepository(getApplication());
 
         String userEmail = getIntent().getStringExtra("loggedUserEmail");
-        User user = userRepository.findByEmail(userEmail);
+        user = userRepository.findByEmail(userEmail);
 
         int problemId = getIntent().getIntExtra("problemId", 0);
         problem = problemRepository.findById(problemId);
@@ -66,16 +77,56 @@ public class ViewProblemActivity extends AppCompatActivity {
         viewDescription.setText(problem.getDescription());
         viewLocation.setText(problem.getLocation());
         viewSolverComments.setText(problem.getSolverComments());
+        edtSolverComments.setText(problem.getSolverComments());
 
-        Log.d("DENIS", "user email " + userEmail);
-        Log.d("DENIS", "user  " + user);
-        if ("REPORTER".equals(user.getRole())) {
+        changeLayoutAccordingUserRole();
+
+        spiStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                problem.setStatus(Problem.statusOptions.values()[position].name());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void changeLayoutAccordingUserRole() {
+        if (user.isReporter()) {
             edtSolverComments.setVisibility(View.INVISIBLE);
             viewSolverComments.setVisibility(View.VISIBLE);
+            viewStatus.setText(problem.getStatus());
         } else {
             edtSolverComments.setVisibility(View.VISIBLE);
             viewSolverComments.setVisibility(View.INVISIBLE);
+
+            ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Problem.statusOptions.values());
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spiStatus.setAdapter(adapter);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (!user.isReporter()) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.solver_problem_context, menu);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        problem.setSolverComments(edtSolverComments.getText().toString());
+
+        if (item.getItemId() == R.id.action_save_problem) {
+            problemRepository.update(problem);
+        }
+        return true;
     }
 
     @OnClick(R.id.viewLocationOnMaps)

@@ -5,9 +5,7 @@
         android:drawable="@color/gray"/>
 
     <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@mipmap/ic_launcher"/>
+        <bitmap android:src="@drawable/problemfinder"/>
     </item>
 
 </layer-list>

@@ -45,6 +45,7 @@ public class ReportedProblemAdapter extends RecyclerView.Adapter<ReportedProblem
         holder.category.setText(problem.getCategory());
         holder.location.setText(problem.getLocation());
         holder.dateEvent.setText(formatDate(problem.getHappenedOn()));
+        holder.status.setText(problem.getStatus());
         holder.problemPhoto.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         holder.problemPhoto.setAdjustViewBounds(true);
         holder.problemPhoto.setImageBitmap(BitmapFactory.decodeByteArray(problem.getImage(), 0, problem.getImage().length));
@@ -56,7 +57,7 @@ public class ReportedProblemAdapter extends RecyclerView.Adapter<ReportedProblem
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, category, location, dateEvent;
+        public TextView title, category, location, dateEvent, status;
         public ImageView problemPhoto;
         public View viewForeground, viewBackground;
 
@@ -67,6 +68,7 @@ public class ReportedProblemAdapter extends RecyclerView.Adapter<ReportedProblem
             location = itemView.findViewById(R.id.location);
             dateEvent = itemView.findViewById(R.id.dateEvent);
             problemPhoto = itemView.findViewById(R.id.problemImage);
+            status = itemView.findViewById(R.id.status);
             viewForeground = itemView.findViewById(R.id.viewForeground);
             viewBackground = itemView.findViewById(R.id.viewBackground);
         }

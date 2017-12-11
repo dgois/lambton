@@ -4,12 +4,15 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.util.Log;
 
 /**
  * Created by macstudent on 2017-12-07.
  */
 @Entity
 public class User {
+
+    public enum roleTypes {REPORTER, SOLVER};
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -62,6 +65,11 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    @Ignore
+    public boolean isReporter() {
+        return roleTypes.REPORTER.name().equals(role);
     }
 
     @Override

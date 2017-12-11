@@ -102,11 +102,34 @@
 
         <TextView style="@style/HeadDetail"
             android:layout_marginTop="16dp"
+            android:id="@+id/labelStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:layout_below="@id/viewLocationOnMaps"/>
+        <View style="@style/Divider"
+            android:id="@+id/statusDivider"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/labelStatus"/>
+        <TextView
+            android:id="@+id/viewStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/statusDivider"/>
+        <Spinner
+            android:id="@+id/spiStatus"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/statusDivider"/>
+
+        <TextView style="@style/HeadDetail"
+            android:layout_marginTop="16dp"
             android:id="@+id/labelSolverComments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Solver Comments"
-            android:layout_below="@id/viewLocation"/>
+            android:layout_below="@id/viewStatus"/>
         <View style="@style/Divider"
             android:id="@+id/commentsDivider"
             android:layout_marginTop="5dp"
@@ -116,7 +139,6 @@
             android:id="@+id/viewSolverComments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title"
             android:layout_below="@id/commentsDivider"/>
 
         <android.support.design.widget.TextInputEditText

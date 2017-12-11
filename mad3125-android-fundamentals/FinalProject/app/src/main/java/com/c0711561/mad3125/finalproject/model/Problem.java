@@ -13,6 +13,8 @@ import java.util.Date;
 @Entity
 public class Problem {
 
+    public enum statusOptions { WAITING, STARTED, DONE, CANCELED };
+
     @PrimaryKey(autoGenerate = true)
     private int id;
 
@@ -43,6 +45,9 @@ public class Problem {
     @ColumnInfo
     private String solverComments;
 
+    @ColumnInfo
+    private String status;
+
     public Problem() {}
 
     @Ignore
@@ -55,6 +60,7 @@ public class Problem {
         this.category = category;
         this.image = image;
         this.happenedOn = happenedOn;
+        this.status = statusOptions.WAITING.name();
     }
 
     @Ignore
@@ -148,6 +154,14 @@ public class Problem {
 
     public void setSolverComments(String solverComments) {
         this.solverComments = solverComments;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

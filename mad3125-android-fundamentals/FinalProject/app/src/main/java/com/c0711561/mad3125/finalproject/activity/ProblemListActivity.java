@@ -1,7 +1,9 @@
 package com.c0711561.mad3125.finalproject.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,12 +11,14 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.c0711561.mad3125.finalproject.R;
 import com.c0711561.mad3125.finalproject.adapter.ReportedProblemAdapter;
+import com.c0711561.mad3125.finalproject.helper.RecyclerItemTouchHelper;
 import com.c0711561.mad3125.finalproject.listener.OnItemClickListener;
 import com.c0711561.mad3125.finalproject.listener.RecyclerTouchListener;
 import com.c0711561.mad3125.finalproject.model.Problem;
@@ -23,13 +27,14 @@ import com.c0711561.mad3125.finalproject.repository.ProblemRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProblemListActivity extends AppCompatActivity {
+public class ProblemListActivity extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     private List<Problem> problems = new ArrayList<>();
     private RecyclerView recyclerView;
     private ReportedProblemAdapter reportedProblemAdapter;
     private String loggedUserEmail;
     private ProblemRepository problemRepository;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,7 @@ public class ProblemListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         loggedUserEmail = getIntent().getStringExtra("loggedUserEmail");
         problemRepository = new ProblemRepository(getApplication());
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.problemListCoordinatorLayout);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +74,9 @@ public class ProblemListActivity extends AppCompatActivity {
                 startActivity(viewProblemIntent);
             }
         }));
+
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
     }
 
     private void updateProblemList() {
@@ -90,5 +99,30 @@ public class ProblemListActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         updateProblemList();
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if (viewHolder instanceof ReportedProblemAdapter.MyViewHolder) {
+            final int deletedIndex = viewHolder.getAdapterPosition();
+
+            String title = problems.get(deletedIndex).getTitle();
+            final Problem deletedProblem = problems.get(deletedIndex);
+
+            reportedProblemAdapter.removeProblem(deletedIndex);
+            problemRepository.delete(deletedProblem);
+
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, title + " was removed!", Snackbar.LENGTH_LONG);
+            snackbar.setAction("UNDO", new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    reportedProblemAdapter.restoreProblem(deletedProblem, deletedIndex);
+                    problemRepository.insert(deletedProblem);
+                }
+            });
+            snackbar.setActionTextColor(Color.YELLOW);
+            snackbar.show();
+        }
     }
 }

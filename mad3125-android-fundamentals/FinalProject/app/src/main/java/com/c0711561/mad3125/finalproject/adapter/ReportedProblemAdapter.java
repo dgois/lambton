@@ -58,6 +58,7 @@ public class ReportedProblemAdapter extends RecyclerView.Adapter<ReportedProblem
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, category, location, dateEvent;
         public ImageView problemPhoto;
+        public View viewForeground, viewBackground;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -66,6 +67,8 @@ public class ReportedProblemAdapter extends RecyclerView.Adapter<ReportedProblem
             location = itemView.findViewById(R.id.location);
             dateEvent = itemView.findViewById(R.id.dateEvent);
             problemPhoto = itemView.findViewById(R.id.problemImage);
+            viewForeground = itemView.findViewById(R.id.viewForeground);
+            viewBackground = itemView.findViewById(R.id.viewBackground);
         }
 
     }
@@ -73,5 +76,15 @@ public class ReportedProblemAdapter extends RecyclerView.Adapter<ReportedProblem
     private String formatDate(Date date) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormatter.format(date);
+    }
+
+    public void removeProblem(int position) {
+        problems.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void restoreProblem(Problem problem, int position) {
+        problems.add(position, problem);
+        notifyItemInserted(position);
     }
 }

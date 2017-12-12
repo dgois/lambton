@@ -4,16 +4,21 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
 import com.c0711561.mad3125.finalproject.R;
+import com.c0711561.mad3125.finalproject.model.Problem;
+import com.c0711561.mad3125.finalproject.repository.ProblemRepository;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class ProblemsMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private ProblemRepository problemRepository;
+    private Problem problem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +28,10 @@ public class ProblemsMapsActivity extends FragmentActivity implements OnMapReady
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        problemRepository = new ProblemRepository(getApplication());
+
+        int problemId = getIntent().getIntExtra("problemId", 0);
+        problem = problemRepository.findById(problemId);
     }
 
     /**
@@ -37,10 +46,13 @@ public class ProblemsMapsActivity extends FragmentActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+        googleMap.getUiSettings().setCompassEnabled(true);
+        googleMap.getUiSettings().setMapToolbarEnabled(true);
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng problemLocation = new LatLng(problem.getLatitude(), problem.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(problemLocation).title(problem.getTitle()));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(problemLocation));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(problem.getLatitude(), problem.getLongitude()), 20.0f));
     }
 }

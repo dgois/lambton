@@ -58,9 +58,13 @@ public class ProblemsMapsActivity extends AppCompatActivity implements OnMapRead
         googleMap.getUiSettings().setMapToolbarEnabled(true);
 
         LatLng problemLocation = new LatLng(problem.getLatitude(), problem.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(problemLocation).title(problem.getTitle()));
+        mMap.addMarker(new MarkerOptions()
+                .position(problemLocation)
+                .title(problem.getTitle())
+                .visible(true)
+                .snippet(problem.getDescription()));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(problemLocation));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(problem.getLatitude(), problem.getLongitude()), 20.0f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(problem.getLatitude(), problem.getLongitude()), 19.0f));
     }
 
     @Override

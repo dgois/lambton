@@ -94,6 +94,10 @@ public class ReportedProblemAdapter extends RecyclerView.Adapter<ReportedProblem
         notifyItemInserted(position);
     }
 
+    public void updateProblem(int position) {
+        notifyItemChanged(position);
+    }
+
     public void filter(String title) {
         problems.clear();
         if(title.isEmpty()) {

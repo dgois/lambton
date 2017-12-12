@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:padding="7dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         app:srcCompat="@drawable/take_pickure" />
 
     <android.support.design.widget.TextInputLayout

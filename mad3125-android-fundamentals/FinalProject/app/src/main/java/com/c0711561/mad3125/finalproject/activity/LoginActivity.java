@@ -4,7 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +20,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.c0711561.mad3125.finalproject.R;
+import com.c0711561.mad3125.finalproject.model.Problem;
 import com.c0711561.mad3125.finalproject.model.User;
+import com.c0711561.mad3125.finalproject.repository.ProblemRepository;
 import com.c0711561.mad3125.finalproject.repository.UserRepository;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -23,6 +30,8 @@ import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
 
+import java.io.ByteArrayOutputStream;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -64,17 +73,17 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
 
     private void createAdminUserAndSetLogin() {
 
-        User foundUser = userRepository.findByEmail("a@a.com");
+        User foundUser = userRepository.findByEmail("reporter@problemsolver.com");
         if (foundUser == null) {
-            User reporter = new User("a@a.com", "123456", User.roleTypes.REPORTER.name());
+            User reporter = new User("reporter@problemsolver.com", "123456", User.roleTypes.REPORTER.name());
             userRepository.insertAll(reporter);
         }
-        foundUser = userRepository.findByEmail("b@b.com");
+        foundUser = userRepository.findByEmail("solver@problemsolver.com");
         if (foundUser == null) {
-            User solver = new User("b@b.com", "123456", User.roleTypes.SOLVER.name());
+            User solver = new User("solver@problemsolver.com", "123456", User.roleTypes.SOLVER.name());
             userRepository.insertAll(solver);
         }
-        edtEmailLogin.setText("a@a.com");
+        edtEmailLogin.setText("reporter@problemsolver.com");
         edtPassword.setText("123456");
     }
 

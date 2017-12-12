@@ -2,6 +2,7 @@ package com.c0711561.mad3125.finalproject.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,13 +31,14 @@ import butterknife.InjectView;
 
 public class SolverProblemListActivity extends AppCompatActivity {
 
+    public static final int PROBLEM_EDIT_REQUEST_CODE = 1;
+
     @InjectView(R.id.recyclerViewProblems)
     RecyclerView recyclerView;
 
     private ReportedProblemAdapter reportedProblemAdapter;
     private ProblemRepository problemRepository;
     private List<Problem> problems = new ArrayList<>();
-    private String loggedUserEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,6 @@ public class SolverProblemListActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Solver Problem List");
         ButterKnife.inject(this);
         problemRepository = new ProblemRepository(getApplication());
-        loggedUserEmail = getSharedPreferences(getPackageName(), MODE_PRIVATE).getString("loggedUserEmail", "empty");
 
         createProblemList();
 
@@ -62,9 +63,19 @@ public class SolverProblemListActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 Intent viewProblemIntent = new Intent(SolverProblemListActivity.this, ViewProblemActivity.class);
                 viewProblemIntent.putExtra("problemId", problems.get(position).getId());
-                startActivity(viewProblemIntent);
+                startActivityForResult(viewProblemIntent, PROBLEM_EDIT_REQUEST_CODE);
             }
         }));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == PROBLEM_EDIT_REQUEST_CODE) {
+            Snackbar.make(findViewById(R.id.solverProblemList), "Problem was saved! ", Snackbar.LENGTH_LONG).show();
+        }
+        updateProblemList();
     }
 
     private void updateProblemList() {

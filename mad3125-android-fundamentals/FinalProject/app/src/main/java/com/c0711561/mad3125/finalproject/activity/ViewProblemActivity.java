@@ -2,6 +2,7 @@ package com.c0711561.mad3125.finalproject.activity;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
@@ -89,19 +91,6 @@ public class ViewProblemActivity extends AppCompatActivity {
         edtSolverComments.setText(problem.getSolverComments());
 
         changeLayoutAccordingUserRole();
-
-        spiStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                problem.setStatus(Problem.statusOptions.values()[position].name());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
     private void changeLayoutAccordingUserRole() {
@@ -122,6 +111,19 @@ public class ViewProblemActivity extends AppCompatActivity {
             ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Problem.statusOptions.values());
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spiStatus.setAdapter(adapter);
+            spiStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    problem.setStatus(Problem.statusOptions.values()[position].name());
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+            spiStatus.setSelection(Problem.statusOptions.valueOf(problem.getStatus()).ordinal());
         }
     }
 
@@ -147,33 +149,59 @@ public class ViewProblemActivity extends AppCompatActivity {
             case android.R.id.home:
                 this.getIntent().putExtra("problemId", problem.getId());
                 this.getIntent().putExtra("loggedUserEmail", user.getEmail());
-                NavUtils.navigateUpFromSameTask(this);
+
+                if (!user.isReporter()) {
+                    showAlert();
+                } else {
+                    NavUtils.navigateUpFromSameTask(this);
+                }
                 return true;
             case R.id.action_save_problem:
                 problem.setSolverComments(edtSolverComments.getText().toString());
                 int update = problemRepository.update(problem);
                 if (update > 0 ) {
-                    Snackbar.make(viewProblemLayourt, "Problem was saved!", Snackbar.LENGTH_SHORT).show();
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.drawable.notification_icon)
-                            .setContentTitle("Problem was updated")
-                            .setContentText("Problem title: " + problem.getTitle() + " was change to : " + problem.getStatus());
-
-                    Intent resultIntent = new Intent(this, LoginActivity.class);
-                    PendingIntent resultPendingIntent =
-                            PendingIntent.getActivity(
-                                    this,
-                                    0,
-                                    resultIntent,
-                                    PendingIntent.FLAG_UPDATE_CURRENT
-                            );
-                    builder.setContentIntent(resultPendingIntent);
-
-                    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                    notificationManager.notify(001, builder.build());
+                    notifyAfterUpdateProblem();
+                    finish();
                 }
                 return true;
             default: return true;
         }
+    }
+
+    private void showAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("You will loose edited information!")
+                .setTitle("Cancel Problem update?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ViewProblemActivity.super.onBackPressed();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+        builder.create().show();
+    }
+
+    private void notifyAfterUpdateProblem() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.notification_icon)
+                .setContentTitle("Problem was updated")
+                .setContentText("Problem title: " + problem.getTitle() + " was change to : " + problem.getStatus());
+
+        Intent resultIntent = new Intent(this, LoginActivity.class);
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        resultIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        builder.setContentIntent(resultPendingIntent);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(001, builder.build());
     }
 }

@@ -2,8 +2,10 @@ package com.c0711561.mad3125.finalproject.activity;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -42,8 +44,17 @@ import com.c0711561.mad3125.finalproject.model.Problem;
 import com.c0711561.mad3125.finalproject.repository.ProblemRepository;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
@@ -92,6 +103,7 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
     private GoogleApiClient googleApiClient;
     private Location mLastKnownLocation;
     private ArrayAdapter adapter;
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +115,7 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
         validator = new Validator(this);
         validator.setValidationListener(this);
         problemRepository = new ProblemRepository(getApplication());
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this )
@@ -120,6 +133,7 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
     protected void onStart() {
         super.onStart();
         askForPermissions();
+        displayLocationSettingsRequest(this);
         getDeviceLocation();
     }
 
@@ -256,16 +270,18 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
      */
     private void getDeviceLocation() {
         if (checkPermission(ACCESS_FINE_LOCATION)) {
-            mLastKnownLocation = LocationServices.FusedLocationApi
-                    .getLastLocation(googleApiClient);
-        }
-
-        if (mLastKnownLocation != null) {
-            Log.e("TAKE_PHOTO", "lat : " + mLastKnownLocation.getLatitude() + " - long: " + mLastKnownLocation.getLongitude());
-        } else {
-            mLastKnownLocation = new Location("default");
-            mLastKnownLocation.setLatitude(37.4220);
-            mLastKnownLocation.setLongitude(-122.0840);
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if (location != null) {
+                        mLastKnownLocation = location;
+                    } else {
+                        mLastKnownLocation = new Location("default");
+                        mLastKnownLocation.setLatitude(37.4220);
+                        mLastKnownLocation.setLongitude(-122.0840);
+                    }
+                }
+            });
         }
     }
 
@@ -278,7 +294,6 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
             addresses = geocoder.getFromLocation(
                     mLastKnownLocation.getLatitude(),
                     mLastKnownLocation.getLongitude(),
-                    // In this sample, we get just a single address.
                     1);
             return addresses.get(0).getAddressLine(0);
         } catch (IOException ioException) {
@@ -327,5 +342,46 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
             public void onClick(DialogInterface dialog, int which) {}
         });
         builder.create().show();
+    }
+
+    private void displayLocationSettingsRequest(Context context) {
+        GoogleApiClient googleApiClient = new GoogleApiClient.Builder(context)
+                .addApi(LocationServices.API).build();
+        googleApiClient.connect();
+
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(10000 / 2);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+        builder.setAlwaysShow(true);
+
+        PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
+        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+            @Override
+            public void onResult(LocationSettingsResult result) {
+                final Status status = result.getStatus();
+                switch (status.getStatusCode()) {
+                    case LocationSettingsStatusCodes.SUCCESS:
+                        Log.i("LOCATION_NEW_PROBLEM", "All location settings are satisfied.");
+                        break;
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        Log.i("LOCATION_NEW_PROBLEM", "Location settings are not satisfied. Show the user a dialog to upgrade location settings ");
+
+                        try {
+                            // Show the dialog by calling startResolutionForResult(), and check the result
+                            // in onActivityResult().
+                            status.startResolutionForResult(ReportNewProblemActivity.this, 11);
+                        } catch (IntentSender.SendIntentException e) {
+                            Log.i("LOCATION_NEW_PROBLEM", "PendingIntent unable to execute request.");
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        Log.i("LOCATION_NEW_PROBLEM", "Location settings are inadequate, and cannot be fixed here. Dialog not created.");
+                        break;
+                }
+            }
+        });
     }
 }

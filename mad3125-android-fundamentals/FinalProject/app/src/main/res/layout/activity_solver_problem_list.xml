@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/solverProblemList"
     tools:context="com.c0711561.mad3125.finalproject.activity.SolverProblemListActivity">
 
     <include layout="@layout/content_problem_list" />

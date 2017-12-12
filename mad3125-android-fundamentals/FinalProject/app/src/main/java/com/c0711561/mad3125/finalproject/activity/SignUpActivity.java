@@ -1,9 +1,11 @@
 package com.c0711561.mad3125.finalproject.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -116,7 +118,29 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
             case R.id.action_save_problem:
                 validator.validate();
                 return true;
+            case android.R.id.home:
+                showAlert();
+                return true;
             default: return true;
         }
     }
+
+    private void showAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Cancel Sing Up")
+                .setTitle("Are your sure?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SignUpActivity.super.onBackPressed();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+        builder.create().show();
+    }
+
+
 }

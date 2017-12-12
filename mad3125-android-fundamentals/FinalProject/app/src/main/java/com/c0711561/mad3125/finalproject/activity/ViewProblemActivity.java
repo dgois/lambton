@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
@@ -55,7 +56,6 @@ public class ViewProblemActivity extends AppCompatActivity {
     TextInputEditText edtSolverComments;
     @InjectView(R.id.viewProblemLayourt)
     LinearLayout viewProblemLayourt;
-
 
     private ProblemRepository problemRepository;
     private UserRepository userRepository;
@@ -132,5 +132,24 @@ public class ViewProblemActivity extends AppCompatActivity {
         Intent mapsIntent = new Intent(this, ProblemsMapsActivity.class);
         mapsIntent.putExtra("problemId", problem.getId());
         startActivity(mapsIntent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.getIntent().putExtra("problemId", problem.getId());
+                this.getIntent().putExtra("loggedUserEmail", user.getEmail());
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case R.id.action_save_problem:
+                problem.setSolverComments(edtSolverComments.getText().toString());
+                int update = problemRepository.update(problem);
+                if (update > 0 ) {
+                    Snackbar.make(viewProblemLayourt, "Problem was edited!", Snackbar.LENGTH_SHORT).show();
+                }
+                return true;
+            default: return true;
+        }
     }
 }

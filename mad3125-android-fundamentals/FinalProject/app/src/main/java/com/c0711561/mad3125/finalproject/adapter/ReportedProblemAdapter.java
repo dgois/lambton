@@ -13,6 +13,8 @@ import com.c0711561.mad3125.finalproject.listener.OnItemClickListener;
 import com.c0711561.mad3125.finalproject.model.Problem;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -23,9 +25,11 @@ import java.util.List;
 public class ReportedProblemAdapter extends RecyclerView.Adapter<ReportedProblemAdapter.MyViewHolder> {
 
     private List<Problem> problems;
+    private List<Problem> problemsCopy;
 
     public ReportedProblemAdapter(List<Problem> problems) {
         this.problems = problems;
+        problemsCopy = new ArrayList<>(problems);
     }
 
     public ReportedProblemAdapter(List<Problem> problems, OnItemClickListener listener) {
@@ -88,5 +92,20 @@ public class ReportedProblemAdapter extends RecyclerView.Adapter<ReportedProblem
     public void restoreProblem(Problem problem, int position) {
         problems.add(position, problem);
         notifyItemInserted(position);
+    }
+
+    public void filter(String title) {
+        problems.clear();
+        if(title.isEmpty()) {
+            problems.addAll(problemsCopy);
+        } else {
+            title = title.toLowerCase();
+            for (Problem item : problemsCopy) {
+                if(item.getTitle().toLowerCase().contains(title) || item.getTitle().toLowerCase().contains(title)){
+                    problems.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 }

@@ -1,7 +1,11 @@
 package com.c0711561.mad3125.finalproject.activity;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import com.c0711561.mad3125.finalproject.R;
 import com.c0711561.mad3125.finalproject.model.Problem;
@@ -14,7 +18,7 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class ProblemsMapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class ProblemsMapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ProblemRepository problemRepository;
@@ -24,6 +28,9 @@ public class ProblemsMapsActivity extends FragmentActivity implements OnMapReady
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problems_maps);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Problem Location");
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -54,5 +61,17 @@ public class ProblemsMapsActivity extends FragmentActivity implements OnMapReady
         mMap.addMarker(new MarkerOptions().position(problemLocation).title(problem.getTitle()));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(problemLocation));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(problem.getLatitude(), problem.getLongitude()), 20.0f));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent parentActivityIntent = NavUtils.getParentActivityIntent(this);
+                parentActivityIntent.putExtra("problemId", problem.getId());
+                NavUtils.navigateUpTo(this, parentActivityIntent);
+                return true;
+            default: return true;
+        }
     }
 }

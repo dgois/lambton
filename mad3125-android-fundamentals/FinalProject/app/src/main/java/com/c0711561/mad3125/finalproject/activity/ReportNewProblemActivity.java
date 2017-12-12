@@ -1,5 +1,8 @@
 package com.c0711561.mad3125.finalproject.activity;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,12 +16,19 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -70,9 +80,6 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
     @InjectView(R.id.edtNewProblemDescription)
     TextInputEditText edtNewProblemDescription;
 
-    @InjectView(R.id.btnNewProblemSave)
-    Button btnNewProblemSave;
-
     @InjectView(R.id.imageView)
     ImageView imageView;
 
@@ -91,7 +98,8 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_new_problem);
         ButterKnife.inject(this);
-        getSupportActionBar().setTitle("Create New Problem");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Report a New Problem");
         validator = new Validator(this);
         validator.setValidationListener(this);
         problemRepository = new ProblemRepository(getApplication());
@@ -128,11 +136,6 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
         if (!checkPermission(ACCESS_FINE_LOCATION)) {
             requestPermission(ACCESS_FINE_LOCATION);
         }
-    }
-
-    @OnClick(R.id.btnNewProblemSave)
-    public void onViewClicked() {
-        validator.validate();
     }
 
     @OnClick(R.id.imageView)
@@ -286,5 +289,43 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
                     ", Longitude = " + mLastKnownLocation.getLongitude(), illegalArgumentException);
         }
         return "Default Address";
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.solver_problem_context, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save_problem:
+                validator.validate();
+                return true;
+            case android.R.id.home:
+                showAlert();
+                return true;
+            default: return true;
+        }
+    }
+
+    private void showAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("You will loose this problem!")
+        .setTitle("Cancel New Problem creation?")
+        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                NavUtils.navigateUpFromSameTask(ReportNewProblemActivity.this);
+            }
+        })
+        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}
+        });
+        builder.create().show();
     }
 }

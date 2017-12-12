@@ -42,19 +42,24 @@
             android:name=".activity.ProblemListActivity"
             android:label="@string/title_activity_problem_list"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activity.LoginActivity"/>
+            android:parentActivityName=".activity.LoginActivity">
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
 
         <activity android:name=".activity.SolverProblemListActivity"
             android:parentActivityName=".activity.LoginActivity"/>
 
-        <activity android:name=".activity.ReportNewProblemActivity" />
+        <activity android:name=".activity.ReportNewProblemActivity"
+            android:parentActivityName=".activity.ProblemListActivity"/>
 
         <activity android:name=".activity.ViewProblemActivity"
             android:parentActivityName=".activity.ProblemListActivity"/>
 
         <activity
             android:name=".activity.ProblemsMapsActivity"
-            android:label="@string/title_activity_problems_maps" />
+            android:label="@string/title_activity_problems_maps"
+            android:parentActivityName=".activity.ViewProblemActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

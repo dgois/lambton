@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="16dp"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     tools:context="com.c0711561.mad3125.finalproject.activity.ReportNewProblemActivity">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:padding="7dp"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/take_pickure" />
@@ -58,12 +58,5 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"/>
-
-    <Button
-        android:id="@+id/btnNewProblemSave"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        android:layout_marginTop="50dp"/>
 
 </LinearLayout>

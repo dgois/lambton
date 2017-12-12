@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Problem Solver</string>
+    <string name="app_name">Problem Finder</string>
     <string name="title_activity_problem_list">ProblemListActivity</string>
     <string name="title_activity_report_new_problem">ReportNewProblemActivity</string>
     <string name="title_activity_problems_maps">Map</string>

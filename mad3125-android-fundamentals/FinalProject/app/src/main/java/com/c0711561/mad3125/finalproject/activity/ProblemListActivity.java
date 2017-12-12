@@ -1,5 +1,9 @@
 package com.c0711561.mad3125.finalproject.activity;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -7,13 +11,20 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,7 +39,7 @@ import com.c0711561.mad3125.finalproject.repository.ProblemRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProblemListActivity extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+public class ProblemListActivity extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, SearchView.OnQueryTextListener {
 
     private List<Problem> problems = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -66,7 +77,7 @@ public class ProblemListActivity extends AppCompatActivity implements RecyclerIt
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Solver Problem List");
+        getSupportActionBar().setTitle("Problem List");
     }
 
     private void createProblemList() {
@@ -131,5 +142,29 @@ public class ProblemListActivity extends AppCompatActivity implements RecyclerIt
             snackbar.setActionTextColor(Color.YELLOW);
             snackbar.show();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_problem_context, menu);
+
+        final MenuItem searchItem = menu.findItem(R.id.search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(this);
+
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String title) {
+        reportedProblemAdapter.filter(title);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String title) {
+        reportedProblemAdapter.filter(title);
+        return true;
     }
 }

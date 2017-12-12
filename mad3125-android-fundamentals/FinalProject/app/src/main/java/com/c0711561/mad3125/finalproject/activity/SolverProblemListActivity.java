@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -41,6 +42,7 @@ public class SolverProblemListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_solver_problem_list);
+        getSupportActionBar().setTitle("Solver Problem List");
         ButterKnife.inject(this);
         problemRepository = new ProblemRepository(getApplication());
         loggedUserEmail = getIntent().getStringExtra("loggedUserEmail");

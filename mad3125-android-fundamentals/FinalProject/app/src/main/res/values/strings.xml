@@ -8,4 +8,13 @@
         <item>REPORTER</item>
         <item>SOLVER</item>
     </string-array>
+
+    <string-array name="problemCategories">
+        <item>Scattered Trash</item>
+        <item>Sidewalk Defect</item>
+        <item>Slippery Sidewalk</item>
+        <item>Flood Street</item>
+        <item>Slippery Street</item>
+        <item>Slippery Street</item>
+    </string-array>
 </resources>

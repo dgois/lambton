@@ -42,6 +42,8 @@ public class ProblemListActivity extends AppCompatActivity implements RecyclerIt
         setContentView(R.layout.activity_problem_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Reporter Problem List");
         loggedUserEmail = getIntent().getStringExtra("loggedUserEmail");
         problemRepository = new ProblemRepository(getApplication());
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.problemListCoordinatorLayout);

@@ -20,9 +20,11 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.c0711561.mad3125.finalproject.R;
@@ -48,6 +50,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
 
 
@@ -58,9 +61,6 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
     public static final int REPORTED_NEW_PROBLEM = 34;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int PERMISSION_REQUEST_CODE = 200;
-    private static final int PERMISSION_ACCESS_COARSE_LOCATION = 2;
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private boolean mLocationPermissionGranted;
 
     @NotEmpty
     @InjectView(R.id.edtNewProblemTitle)
@@ -70,40 +70,64 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
     @InjectView(R.id.edtNewProblemDescription)
     TextInputEditText edtNewProblemDescription;
 
-    @NotEmpty
-    @InjectView(R.id.edtNewProblemCategory)
-    TextInputEditText edtNewProblemCategory;
-
     @InjectView(R.id.btnNewProblemSave)
     Button btnNewProblemSave;
 
     @InjectView(R.id.imageView)
     ImageView imageView;
 
+    @InjectView(R.id.problemCategories)
+    Spinner problemCategories;
+
     private Validator validator;
     private ProblemRepository problemRepository;
     private Uri uriPhoto;
     private GoogleApiClient googleApiClient;
     private Location mLastKnownLocation;
+    private ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_new_problem);
         ButterKnife.inject(this);
+        getSupportActionBar().setTitle("Create New Problem");
         validator = new Validator(this);
         validator.setValidationListener(this);
         problemRepository = new ProblemRepository(getApplication());
 
         googleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */,
-                        this /* OnConnectionFailedListener */)
+                .enableAutoManage(this, this )
                 .addConnectionCallbacks(this)
                 .addApi(LocationServices.API)
                 .addApi(Places.GEO_DATA_API)
                 .addApi(Places.PLACE_DETECTION_API)
                 .build();
         googleApiClient.connect();
+
+        populateSpinnerProblemCategories();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        askForPermissions();
+        getDeviceLocation();
+    }
+
+    private void populateSpinnerProblemCategories() {
+        adapter = ArrayAdapter.createFromResource(this, R.array.problemCategories, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        problemCategories.setAdapter(adapter);
+    }
+
+    private void askForPermissions() {
+        if (!checkPermission(CAMERA)) {
+            requestPermission(CAMERA);
+        }
+        if (!checkPermission(ACCESS_FINE_LOCATION)) {
+            requestPermission(ACCESS_FINE_LOCATION);
+        }
     }
 
     @OnClick(R.id.btnNewProblemSave)
@@ -113,24 +137,20 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
 
     @OnClick(R.id.imageView)
     public void onViewClickedImage() {
-        Log.e("DENIS", "Image view");
-        if (checkPermission()) {
+        if (checkPermission(CAMERA)) {
             dispatchTakePictureIntent();
-        } else {
-            requestPermission(CAMERA);
         }
     }
 
     @Override
     public void onValidationSucceeded() {
-
         Problem newProblem = new Problem(
                 edtNewProblemTitle.getText().toString(),
                 edtNewProblemDescription.getText().toString(),
                 getAddressBasedOnLatitudeAndLongitude(),
                 mLastKnownLocation.getLatitude(),
                 mLastKnownLocation.getLongitude(),
-                edtNewProblemCategory.getText().toString(),
+                adapter.getItem(problemCategories.getSelectedItemPosition()).toString(),
                 convertImageToBytes(),
                 new Date());
         long createdProblemId = problemRepository.insert(newProblem);
@@ -166,8 +186,8 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
 
     }
 
-    private boolean checkPermission() {
-        int result = ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA);
+    private boolean checkPermission(String permission) {
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(), permission);
         return result == PackageManager.PERMISSION_GRANTED;
     }
 
@@ -185,24 +205,12 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
                 Uri photoURI = FileProvider.getUriForFile(ReportNewProblemActivity.this, "com.c0711561.mad3125.finalproject", photo);
 
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                takePictureIntent.putExtra("test", "Denis");
                 uriPhoto = photoURI;
 
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             } else {
                 Log.e("TAKE_PHOTO", "Photo is null");
             }
-        }
-
-        Log.d("DENIS", "Get device location");
-        getDeviceLocation();
-        Log.d("DENIS", "DONE");
-        if (mLastKnownLocation != null) {
-            Log.d("DENIS", "lat : " + mLastKnownLocation.getLatitude() + " - long: " + mLastKnownLocation.getLongitude());
-        } else {
-            mLastKnownLocation = new Location("default");
-            mLastKnownLocation.setLatitude(37.4220);
-            mLastKnownLocation.setLongitude(-122.0840);
         }
     }
 
@@ -244,27 +252,17 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
      * Gets the current location of the device, and positions the map's camera.
      */
     private void getDeviceLocation() {
-        /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
-         */
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-        }
-        /*
-         * Get the best and most recent location of the device, which may be null in rare
-         * cases when a location is not available.
-         */
-        if (mLocationPermissionGranted) {
+        if (checkPermission(ACCESS_FINE_LOCATION)) {
             mLastKnownLocation = LocationServices.FusedLocationApi
                     .getLastLocation(googleApiClient);
+        }
+
+        if (mLastKnownLocation != null) {
+            Log.e("TAKE_PHOTO", "lat : " + mLastKnownLocation.getLatitude() + " - long: " + mLastKnownLocation.getLongitude());
+        } else {
+            mLastKnownLocation = new Location("default");
+            mLastKnownLocation.setLatitude(37.4220);
+            mLastKnownLocation.setLongitude(-122.0840);
         }
     }
 
@@ -287,9 +285,6 @@ public class ReportNewProblemActivity extends AppCompatActivity implements Valid
             Log.e("NEW_PROBLEM", "Latitude = " + mLastKnownLocation.getLatitude() +
                     ", Longitude = " + mLastKnownLocation.getLongitude(), illegalArgumentException);
         }
-
-
         return "Default Address";
-
     }
 }

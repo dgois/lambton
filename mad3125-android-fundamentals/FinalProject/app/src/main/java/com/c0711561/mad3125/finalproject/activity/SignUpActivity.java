@@ -64,6 +64,8 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
         validator = new Validator(this);
         validator.setValidationListener(this);
         userRepository = new UserRepository(getApplication());
+        getSupportActionBar().setTitle("Sign Up");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         populateSpinnerUsersType();
     }
 

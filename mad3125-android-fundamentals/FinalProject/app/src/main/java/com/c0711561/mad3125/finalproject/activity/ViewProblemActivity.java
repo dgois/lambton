@@ -3,8 +3,10 @@ package com.c0711561.mad3125.finalproject.activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +16,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +53,8 @@ public class ViewProblemActivity extends AppCompatActivity {
     TextView viewSolverComments;
     @InjectView(R.id.edtSolverComments)
     TextInputEditText edtSolverComments;
+    @InjectView(R.id.viewProblemLayourt)
+    LinearLayout viewProblemLayourt;
 
 
     private ProblemRepository problemRepository;
@@ -64,6 +69,7 @@ public class ViewProblemActivity extends AppCompatActivity {
         ButterKnife.inject(this);
         problemRepository = new ProblemRepository(getApplication());
         userRepository = new UserRepository(getApplication());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String userEmail = getIntent().getStringExtra("loggedUserEmail");
         user = userRepository.findByEmail(userEmail);
@@ -97,10 +103,12 @@ public class ViewProblemActivity extends AppCompatActivity {
 
     private void changeLayoutAccordingUserRole() {
         if (user.isReporter()) {
+            getSupportActionBar().setTitle("View Reported Problem");
             edtSolverComments.setVisibility(View.INVISIBLE);
             viewSolverComments.setVisibility(View.VISIBLE);
             viewStatus.setText(problem.getStatus());
         } else {
+            getSupportActionBar().setTitle("Resolve Reported Problem");
             edtSolverComments.setVisibility(View.VISIBLE);
             viewSolverComments.setVisibility(View.INVISIBLE);
 
@@ -115,16 +123,6 @@ public class ViewProblemActivity extends AppCompatActivity {
         if (!user.isReporter()) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.solver_problem_context, menu);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        problem.setSolverComments(edtSolverComments.getText().toString());
-
-        if (item.getItemId() == R.id.action_save_problem) {
-            problemRepository.update(problem);
         }
         return true;
     }

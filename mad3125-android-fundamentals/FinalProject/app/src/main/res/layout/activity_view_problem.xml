@@ -6,7 +6,8 @@
     android:orientation="vertical"
     android:layout_margin="16dp"
     android:layout_height="match_parent"
-    tools:context="com.c0711561.mad3125.finalproject.activity.ViewProblemActivity">
+    tools:context="com.c0711561.mad3125.finalproject.activity.ViewProblemActivity"
+    android:id="@+id/viewProblemLayourt">
 
     <ImageView
         android:id="@+id/imageView"

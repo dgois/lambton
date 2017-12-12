@@ -23,6 +23,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -32,13 +33,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".activity.LoginActivity" android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity android:name=".activity.SignUpActivity" />
+
         <activity
             android:name=".activity.ProblemListActivity"
             android:label="@string/title_activity_problem_list"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activity.LoginActivity"/>
+
+        <activity android:name=".activity.SolverProblemListActivity"
+            android:parentActivityName=".activity.LoginActivity"/>
+
         <activity android:name=".activity.ReportNewProblemActivity" />
+
+        <activity android:name=".activity.ViewProblemActivity"
+            android:parentActivityName=".activity.ProblemListActivity"/>
+
+        <activity
+            android:name=".activity.ProblemsMapsActivity"
+            android:label="@string/title_activity_problems_maps" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -50,23 +66,8 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".activity.ViewProblemActivity" />
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
-        -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <activity
-            android:name=".activity.ProblemsMapsActivity"
-            android:label="@string/title_activity_problems_maps" />
-        <activity android:name=".activity.SolverProblemListActivity"></activity>
     </application>
-
 </manifest>

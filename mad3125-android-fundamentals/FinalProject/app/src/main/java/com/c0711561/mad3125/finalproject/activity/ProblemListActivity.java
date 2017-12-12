@@ -1,6 +1,7 @@
 package com.c0711561.mad3125.finalproject.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -40,11 +41,10 @@ public class ProblemListActivity extends AppCompatActivity implements RecyclerIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problem_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Solver Problem List");
-        loggedUserEmail = getIntent().getStringExtra("loggedUserEmail");
+        configureActionBar();
+
+        loggedUserEmail = getSharedPreferences(getPackageName(), MODE_PRIVATE).getString("loggedUserEmail", "empty");
+
         problemRepository = new ProblemRepository(getApplication());
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.problemListCoordinatorLayout);
 
@@ -53,7 +53,6 @@ public class ProblemListActivity extends AppCompatActivity implements RecyclerIt
             @Override
             public void onClick(View view) {
                 Intent reportNewProblemIntent = new Intent(ProblemListActivity.this, ReportNewProblemActivity.class);
-                reportNewProblemIntent.putExtra("loggedUserEmail", loggedUserEmail);
                 startActivityForResult(reportNewProblemIntent, ReportNewProblemActivity.REPORTED_NEW_PROBLEM);
             }
         });
@@ -61,6 +60,13 @@ public class ProblemListActivity extends AppCompatActivity implements RecyclerIt
         createProblemList();
 
         updateProblemList();
+    }
+
+    private void configureActionBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Solver Problem List");
     }
 
     private void createProblemList() {
@@ -73,7 +79,6 @@ public class ProblemListActivity extends AppCompatActivity implements RecyclerIt
             public void onItemClick(View view, int position) {
                 Intent viewProblemIntent = new Intent(ProblemListActivity.this, ViewProblemActivity.class);
                 viewProblemIntent.putExtra("problemId", problems.get(position).getId());
-                viewProblemIntent.putExtra("loggedUserEmail", loggedUserEmail);
                 startActivity(viewProblemIntent);
             }
         }));

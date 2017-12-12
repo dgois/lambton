@@ -45,8 +45,14 @@ public class SolverProblemListActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Solver Problem List");
         ButterKnife.inject(this);
         problemRepository = new ProblemRepository(getApplication());
-        loggedUserEmail = getIntent().getStringExtra("loggedUserEmail");
+        loggedUserEmail = getSharedPreferences(getPackageName(), MODE_PRIVATE).getString("loggedUserEmail", "empty");
 
+        createProblemList();
+
+        updateProblemList();
+    }
+
+    private void createProblemList() {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewProblems);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
@@ -56,12 +62,9 @@ public class SolverProblemListActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 Intent viewProblemIntent = new Intent(SolverProblemListActivity.this, ViewProblemActivity.class);
                 viewProblemIntent.putExtra("problemId", problems.get(position).getId());
-                viewProblemIntent.putExtra("loggedUserEmail", loggedUserEmail);
                 startActivity(viewProblemIntent);
             }
         }));
-
-        updateProblemList();
     }
 
     private void updateProblemList() {

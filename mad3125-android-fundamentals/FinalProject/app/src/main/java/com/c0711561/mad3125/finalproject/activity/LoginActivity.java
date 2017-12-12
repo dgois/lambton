@@ -1,6 +1,9 @@
 package com.c0711561.mad3125.finalproject.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -90,18 +93,26 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
     public void onValidationSucceeded() {
         User user = userRepository.findByEmail(edtEmailLogin.getText().toString());
         if (user != null) {
+            setLoggedUserOnSharedPreferences(user);
             if (user.isReporter()) {
-                Intent nextIntent = new Intent(this, ProblemListActivity.class);
-                nextIntent.putExtra("loggedUserEmail", user.getEmail());
-                startActivity(nextIntent);
+                startNextActivity(this, ProblemListActivity.class);
             } else {
-                Intent nextIntent = new Intent(this, SolverProblemListActivity.class);
-                nextIntent.putExtra("loggedUserEmail", user.getEmail());
-                startActivity(nextIntent);
+                startNextActivity(this, SolverProblemListActivity.class);
             }
         } else {
             Toast.makeText(this, "User does not exist", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void setLoggedUserOnSharedPreferences(User user) {
+        SharedPreferences.Editor editor = getSharedPreferences(getPackageName(), MODE_PRIVATE).edit();
+        editor.putString("loggedUserEmail", user.getEmail());
+        editor.commit();
+    }
+
+    private void startNextActivity(Context context, Class<? extends AppCompatActivity> clazz) {
+        Intent nextIntent = new Intent(this, clazz);
+        startActivity(nextIntent);
     }
 
     @Override

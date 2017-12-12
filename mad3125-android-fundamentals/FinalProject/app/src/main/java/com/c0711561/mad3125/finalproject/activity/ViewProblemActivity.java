@@ -71,7 +71,7 @@ public class ViewProblemActivity extends AppCompatActivity {
         userRepository = new UserRepository(getApplication());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String userEmail = getIntent().getStringExtra("loggedUserEmail");
+        String userEmail = getSharedPreferences(getPackageName(), MODE_PRIVATE).getString("loggedUserEmail", "empty");
         user = userRepository.findByEmail(userEmail);
 
         int problemId = getIntent().getIntExtra("problemId", 0);

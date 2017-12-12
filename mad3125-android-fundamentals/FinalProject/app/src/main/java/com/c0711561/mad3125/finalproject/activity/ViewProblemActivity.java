@@ -1,11 +1,14 @@
 package com.c0711561.mad3125.finalproject.activity;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.NavUtils;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
@@ -106,11 +109,15 @@ public class ViewProblemActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("View Reported Problem");
             edtSolverComments.setVisibility(View.INVISIBLE);
             viewSolverComments.setVisibility(View.VISIBLE);
+            spiStatus.setVisibility(View.INVISIBLE);
+            viewStatus.setVisibility(View.VISIBLE);
             viewStatus.setText(problem.getStatus());
         } else {
             getSupportActionBar().setTitle("Resolve Reported Problem");
             edtSolverComments.setVisibility(View.VISIBLE);
             viewSolverComments.setVisibility(View.INVISIBLE);
+            spiStatus.setVisibility(View.VISIBLE);
+            viewStatus.setVisibility(View.INVISIBLE);
 
             ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Problem.statusOptions.values());
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -146,7 +153,24 @@ public class ViewProblemActivity extends AppCompatActivity {
                 problem.setSolverComments(edtSolverComments.getText().toString());
                 int update = problemRepository.update(problem);
                 if (update > 0 ) {
-                    Snackbar.make(viewProblemLayourt, "Problem was edited!", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(viewProblemLayourt, "Problem was saved!", Snackbar.LENGTH_SHORT).show();
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                            .setSmallIcon(R.drawable.notification_icon)
+                            .setContentTitle("Problem was updated")
+                            .setContentText("Problem title: " + problem.getTitle() + " was change to : " + problem.getStatus());
+
+                    Intent resultIntent = new Intent(this, LoginActivity.class);
+                    PendingIntent resultPendingIntent =
+                            PendingIntent.getActivity(
+                                    this,
+                                    0,
+                                    resultIntent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT
+                            );
+                    builder.setContentIntent(resultPendingIntent);
+
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    notificationManager.notify(001, builder.build());
                 }
                 return true;
             default: return true;

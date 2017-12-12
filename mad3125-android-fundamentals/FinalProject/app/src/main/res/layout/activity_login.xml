@@ -21,11 +21,12 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@color/cast_expanded_controller_seek_bar_progress_background_tint_color"
+            android:drawableLeft="@drawable/ic_person_black_24dp"
             android:ems="20"
             android:hint="Enter your email"
+            android:inputType="textEmailAddress"
             android:paddingLeft="10dp"
             android:textAlignment="center"
-            android:inputType="textEmailAddress"
             android:textSize="24sp"
             android:textStyle="bold" />
     </android.support.design.widget.TextInputLayout>
@@ -43,6 +44,7 @@
             android:background="@color/cast_expanded_controller_seek_bar_progress_background_tint_color"
             android:ems="20"
             android:paddingLeft="10dp"
+            android:drawableLeft="@drawable/ic_lock_black_24dp"
             android:hint="Enter your password"
             android:inputType="textPassword"
             android:textAlignment="center"

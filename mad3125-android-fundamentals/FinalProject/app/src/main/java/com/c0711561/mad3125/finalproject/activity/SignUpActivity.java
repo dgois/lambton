@@ -1,8 +1,13 @@
 package com.c0711561.mad3125.finalproject.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,8 +52,6 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
     @InjectView(R.id.edtSignUpPasswordConfirmation)
     TextInputEditText edtSignUpPasswordConfirmation;
 
-    @InjectView(R.id.btnSignUpSave)
-    Button btnSignUpSave;
     @InjectView(R.id.usersType)
     Spinner usersType;
 
@@ -99,8 +102,21 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
         }
     }
 
-    @OnClick(R.id.btnSignUpSave)
-    public void onViewClicked() {
-        validator.validate();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.solver_problem_context, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save_problem:
+                validator.validate();
+                return true;
+            default: return true;
+        }
     }
 }

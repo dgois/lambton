@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -100,7 +101,7 @@ public class LoginActivity extends AppCompatActivity implements Validator.Valida
                 startNextActivity(this, SolverProblemListActivity.class);
             }
         } else {
-            Toast.makeText(this, "User does not exist", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Invalid login credentials. New User? Sign Up!", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -2,8 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="Save"
+    <item
         android:id="@+id/action_save_problem"
-        app:showAsAction="always"
-        android:icon="@android:drawable/ic_menu_save"/>
+        android:icon="@drawable/check"
+        android:title="Save"
+        app:showAsAction="always" />
 </menu>

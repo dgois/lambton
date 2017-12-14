@@ -8,6 +8,7 @@
     <item>
         <bitmap
             android:gravity="center"
+            android:scaleType="fitXY"
             android:src="@drawable/cricket_splash" />
     </item>
 </layer-list>

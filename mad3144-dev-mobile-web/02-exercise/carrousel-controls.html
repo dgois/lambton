@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link href=bootstrap.css rel=stylesheet>
+	<style type="text/css">
+		img {
+			width: 50%;
+			height: auto;
+		}
+
+	</style>
+</head>
+<body class="container">
+	<div class="form-group">
+		<img id="toronto" src="images/first.jpg">
+	</div>
+	<div class="form-group">
+		<button id="first">First</button>
+		<button id="previous">Previous</button>
+		<button id="next">Next</button>
+		<button id="last">Last</button>
+	</div>
+	<div class="form-group">
+		<p id="imageName"></p>
+	</div>
+</body>
+<script type="text/javascript">
+	var index = 0,
+		imageNames = ["first.jpg", "second.jpg", "third.jpeg", "fourth.jpeg", "fifth.jpg"];
+
+	document.querySelector("#previous").addEventListener("click", function (argument) {		
+		if (index > 0) document.querySelector("#toronto").src = `images/${imageNames[index--]}`;
+		document.querySelector("#imageName").textContent = document.querySelector("#toronto").src;
+	});
+
+	document.querySelector("#next").addEventListener("click", function (argument) {
+		if (index < 4) document.querySelector("#toronto").src = `images/${imageNames[index++]}`;
+		document.querySelector("#imageName").textContent = document.querySelector("#toronto").src;
+	});
+
+	document.querySelector("#first").addEventListener("click", function (argument) {
+		document.querySelector("#toronto").src = `images/${imageNames[0]}`;
+		document.querySelector("#imageName").textContent = document.querySelector("#toronto").src;
+	});
+
+	document.querySelector("#last").addEventListener("click", function (argument) {
+		document.querySelector("#toronto").src = `images/${imageNames[imageNames.length - 1]}`;
+		document.querySelector("#imageName").textContent = document.querySelector("#toronto").src;
+	});
+	
+</script>
+</html>

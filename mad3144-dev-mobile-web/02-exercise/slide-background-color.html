@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link href=bootstrap.css rel=stylesheet>
+</head>
+<body class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<form class="form-group">
+				<label for="red" id="label-red">Red: </label>
+				<input class="form-control" type="range" name="points" min="0" max="255" id="red">
+				<label for="blue" id="label-green">Blue: </label>
+				<input class="form-control" type="range" name="points" min="0" max="255" id="blue">
+				<label for="green" id="label-blue">Green: </label>
+				<input class="form-control" type="range" name="points" min="0" max="255" id="green">
+			</form>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	document.querySelectorAll("input[type]").forEach(function (element) {
+		element.addEventListener("change", function (event) {
+
+			var red = document.querySelector("#red").value,
+				blue = document.querySelector("#blue").value,
+				green = document.querySelector("#green").value,
+				labelRed = document.querySelector("#label-red"),
+				labelBlue = document.querySelector("#label-blue"),
+				labelGreen = document.querySelector("#label-green");
+			
+			document.querySelector("body").style.backgroundColor = `rgb(${red},${green},${blue})`;
+			
+			labelRed.textContent = `Red: ${red}`;
+			labelBlue.textContent = `Blue: ${blue}`;
+			labelGreen.textContent = `Green: ${green}`;
+		});
+	}); 
+</script>
+</html>

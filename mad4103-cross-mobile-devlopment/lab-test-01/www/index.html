@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        #square {
+            top: 50%;
+            left: 50%;
+            height: 50px;
+            width: 50px;
+            background-color: blue;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="square"></div>
+
+</body>
+<script type="text/javascript">
+    var square = {
+        elementRef: document.getElementById('square'),
+        top: 100,
+        left: 100,
+        moveTo: moveToRightTop
+    }
+
+    setInterval(function() {
+        square.moveTo();
+    }, 10);
+
+    function moveToRightTop() {
+        square.left += 2;
+        square.top -= 2;
+        square.elementRef.style.left = `${square.left}px`;
+        square.elementRef.style.top = `${square.top}px`;
+
+        if ((square.left + 50) >= window.innerWidth) {
+            square.moveTo = moveToLeftTop;
+        }
+
+        if (square.top <= 0) {
+            square.moveTo = moveToRightBottom;
+        }
+    }
+
+    function moveToRightBottom() {
+        square.left += 2;
+        square.top += 2;
+        square.elementRef.style.left = `${square.left}px`;
+        square.elementRef.style.top = `${square.top}px`;
+
+        if ((square.left + 50) >= window.innerWidth) {
+            square.moveTo = moveToLeftBottom;
+        }
+
+        if ((square.top + 50) >= window.innerHeight) {
+            square.moveTo = moveToRightTop;
+        }
+    }
+
+    function moveToLeftBottom() {
+        square.top += 2;
+        square.left -= 2;
+        square.elementRef.style.top = `${square.top}px`;
+        square.elementRef.style.left = `${square.left}px`;
+
+        if (square.left <= 0) {
+            square.moveTo = moveToRightBottom;
+        }
+
+        if ((square.top + 50) >= window.innerHeight) {
+            square.moveTo = moveToLeftTop;
+        }
+    }
+
+    function moveToLeftTop() {
+        square.top -= 2;
+        square.left -= 2;
+        square.elementRef.style.top = `${square.top}px`;
+        square.elementRef.style.left = `${square.left}px`;
+
+        if ((square.top) <= 0) {
+            square.moveTo = moveToLeftBottom;
+        }
+
+        if (square.left <= 0) {
+            square.moveTo = moveToRightBottom;
+        }
+    }
+</script>
+
+</html>

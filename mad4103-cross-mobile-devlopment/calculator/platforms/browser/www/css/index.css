@@ -1,0 +1,25 @@
+.height {
+    margin-top: 30px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1em;
+    flex-direction: column;
+    height: 5em;
+}
+
+h1,
+input,
+p {
+    text-align: center;
+}
+
+.bmi {
+    font-size: 1.5em;
+}
+
+.output {
+    padding: 2em 0;
+}

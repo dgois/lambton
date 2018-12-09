@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <style type="text/css">
+        html { height: 100%;}
+
+        body {
+			position: relative;
+            width: 100%;
+            height: 100%;
+		}
+
+		#square {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin-right: -50%;
+			height: 10px;
+			width: 10px;
+			background-color: blue;
+			position: absolute;
+		}
+
+	</style>
+</head>
+<body>
+    <div id="square"></div>
+    
+</body>
+<script type="text/javascript">
+
+    var square = {
+        elementRef: document.getElementById('square'),
+        sqHeight: 10,
+        sqWidth: 10,
+        changeColorCounter: 1,
+        increase: true
+    }
+
+    setInterval(function () {
+
+        if (square.increase) {
+            increaseSquare(square);
+        } else {
+            decreaseSquare(square);
+        }
+
+        if (hasToChangeColor(square)) {
+            changeColor(square);
+        }
+
+    }, 100);
+	
+    function increaseSquare(square) {
+        square.sqHeight += 5;
+        square.sqWidth += 5;
+        square.elementRef.style.height = `${square.sqHeight}px`;
+        square.elementRef.style.width = `${square.sqWidth}px`;
+
+        shouldChangeDirection(square);
+    }
+
+    function decreaseSquare(square) {
+        square.sqHeight -= 5;
+        square.sqWidth -= 5;
+        square.elementRef.style.height = `${square.sqHeight}px`;
+        square.elementRef.style.width = `${square.sqWidth}px`;
+
+        shouldChangeDirection(square);
+    }
+
+    function shouldChangeDirection(square) {
+        if (square.increase && (square.sqWidth < 400 && square.sqHeight < 400)) {
+            square.increase = true;
+        } else  {
+            square.increase = false;
+            if (square.sqWidth <= 10 && square.sqHeight <= 10) {
+                square.increase = true;
+            }
+        } 
+    }
+
+    function shouldDecrease(square) {
+        return (square.sqHeight >= 400 && square.sqWidth >= 400);
+    }
+
+    function changeColor(square) {
+        square.elementRef.style.backgroundColor = generateRandomColor();
+    }
+
+    function generateRandomColor() {
+        var red = Math.floor(Math.random() * 200) % 255;
+        var green = Math.floor(Math.random() * 200) % 255;
+        var blue = Math.floor(Math.random() * 200) % 255;
+        return `rgb(${red}, ${green}, ${blue})`;
+    }
+
+    function hasToChangeColor(square) {
+        if ( square.changeColorCounter >= 10 ) {
+            square.changeColorCounter = 1;
+            return true;
+        } 
+        square.changeColorCounter += 1;
+        return false;
+    }
+	
+</script>
+</html>

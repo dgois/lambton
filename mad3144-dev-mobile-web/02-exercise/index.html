@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link href=css/bootstrap.css rel=stylesheet>
+</head>
+<body class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<form class="form-group">
+				<label>Number1: </label>
+				<input type="text" id="number1" required class="form-control">
+				<label>Number2: </label>
+				<input type="text" id="number2" required class="form-control">
+				<label>Result: </label>
+				<input type="text" id="result" class="form-control">
+
+				<div style="margin-top: 1em;">
+					<button id="plus" class="btn btn-default">+</button>
+					<button id="subtract" class="btn btn-default">-</button>
+					<button id="times" class="btn btn-default">*</button>
+					<button id="divide" class="btn btn-default">/</button>
+					<button id="clear" class="btn btn-default">CLEAR</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+
+	document.querySelectorAll("button").forEach(function (e) {
+		e.addEventListener("click", function (event) {
+			event.preventDefault();
+
+			var n1 = document.querySelector("#number1"),
+				n2 = document.querySelector("#number1"),
+				result = document.querySelector("#result"),
+				op = event.target.id;
+
+			console.log(op)
+
+			switch (op) {
+			    case "plus":
+			        result.value = Number(n1.value) + Number(n2.value);
+			        break;
+		        case "subtract":
+			        result.value = Number(n1.value) - Number(n2.value);
+			        break;
+			    case "times":
+			        result.value = Number(n1.value) * Number(n2.value);
+			        break;
+			    case "divide":
+			        result.value = Number(n1.value) / Number(n2.value);
+			        break;
+			    case "clear":
+			        document.querySelector("form").reset();
+			        break;
+			    default:
+			    	console.log("Invalid option");
+			}
+
+		});	
+	})
+
+</script>
+</html>

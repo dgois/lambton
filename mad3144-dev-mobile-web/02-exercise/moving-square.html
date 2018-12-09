@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link href=bootstrap.css rel=stylesheet>
+	<style type="text/css">
+		#square {
+			top: 50px;
+			height: 100px;
+			width: 100px;
+			background-color: blue;
+			position: absolute;
+		}
+
+		body {
+			position: relative;
+		}
+
+		.buttons {
+			top: 200px;
+			position: absolute;
+		}
+
+
+	</style>
+</head>
+<body>
+	<div id="square"></div>
+
+	<div class="buttons">
+		<button id="faster">Faster</button>
+		<button id="slower">Slower</button>
+		<button id="stop">Stop</button>
+		<button id="start">Start</button>
+	</div>
+</body>
+<script type="text/javascript">
+	var timeoutId = 0,
+		position = 0,
+		step = 1,
+		direction = 1;
+
+	function move(argument) {
+		var square = document.querySelector("#square");
+		
+		square.style.left = `${position}px`;
+		
+		position += Math.abs(step) * direction;
+		
+		if ((position + 100) >= window.innerWidth) {
+			direction = direction * -1;
+		} else if (position <= 0) {
+			direction = Math.abs(direction);
+		}
+	}
+
+	timeoutId = setInterval(move, 1);
+
+	document.querySelector("#stop").addEventListener("click", function (argument) {
+		clearInterval(timeoutId);
+		timeoutId = 0;
+	});
+
+	document.querySelector("#start").addEventListener("click", function (argument) {
+		console.log(timeoutId);
+		if (timeoutId == 0) {
+			timeoutId = setInterval(move, 1);
+		}
+	});
+
+	document.querySelector("#faster").addEventListener("click", function (argument) {
+		clearInterval(timeoutId);
+		step = Math.abs(step) * 2;
+		timeoutId = setInterval(move, 1);
+		console.log(step);
+	});
+
+	document.querySelector("#slower").addEventListener("click", function (argument) {
+		clearInterval(timeoutId);
+		if (Math.abs(step) > 0) step = Math.abs(step) / 2;
+		timeoutId = setInterval(move, 1);
+		console.log(step);
+	});
+	
+</script>
+</html>

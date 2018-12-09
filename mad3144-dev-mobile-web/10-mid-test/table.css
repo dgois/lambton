@@ -1,0 +1,79 @@
+body {
+	font-family: Helvetica, sans-serif;
+}
+
+.table {
+	display: flex;
+	justify-content: center;
+}
+
+table {
+	width: 70%;
+}
+
+table, th, tr, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+caption {
+	border-left: 2px dashed black;
+	border-right: 2px dashed black;
+	border-top: 2px dashed black;
+	font-weight: bold;
+	font-size: 1.7em;
+	padding-bottom: 1em;
+	padding-top: 1em;
+	background-color: #ff9f0f; 
+}
+
+.course-head {
+	font-style: italic;
+}
+
+.semester {
+	text-align: center;
+	font-weight: bold;
+	color: white;
+	background-color: #037a96;
+	font-size: 1.2em;
+}
+
+.semester-credits {
+	text-align: right;
+}
+
+tbody tr td:last-child {
+	text-align: center;
+}
+
+.course-name {
+	text-align: left;
+}
+
+table td, table th {
+	padding: .5em .7em;
+}
+
+.strips:nth-child(even) {
+	background-color: #aeccd6;
+}
+
+.semester-credits-bg {
+	background-color: #ff9f0f;
+}	
+
+tfoot {
+	font-size: 1.2em;
+	color: white;
+	background-color: #af6c08;
+}
+
+tr:hover {
+	background-color: rgba(220,220,220,0.9) !important;
+}
+
+p {
+	width: 70%;
+	margin-left: 15%;
+}

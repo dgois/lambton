@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+
+</head>
+
+<body class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <h1>BMI Calculator</h1>
+            <form class="form-group">
+
+                <div class="input-group mb-2">
+                    <input type="number" id="weight" required class="form-control form-control-lg" placeholder="Please inform your weight">
+                    <div class="input-group-append">
+                        <div class="input-group-text">kg</div>
+                    </div>
+                </div>
+
+                <div class="input-group mb-2 height">
+                    <input type="number" id="height" required class="form-control form-control-lg" placeholder="Please inform your height">
+                    <div class="input-group-append">
+                        <div class="input-group-text">m</div>
+                    </div>
+                </div>
+
+                <div class="button-container">
+                    <button id="calculate" class="btn btn-outline-primary">Calculate</button>
+                    <input type="reset" value="Clean" class="btn btn-outline-primary" class="clean">
+                </div>
+
+                <section class="output">
+                    <p class="bmi">Your BMI is: <span id="bmiValue"></span></p>
+                    <p class="result"></p>
+                </section>
+
+
+
+                <p>Latest results:</p>
+                <ul class="result-list">
+                </ul>
+            </form>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript">
+    document.querySelector("#calculate").addEventListener("click", function(event) {
+        event.preventDefault();
+
+        var weight = 0,
+            height = 0,
+            result = 0;
+
+        weightInput = document.querySelector("#weight");
+        heightInput = document.querySelector("#height");
+
+        weight = Number(weightInput.value);
+        height = Number(heightInput.value);
+
+        if (weight == 0 || height == 0) {
+            navigator.notification.alert(
+                'Please inform a valid weight and height', // message
+                alertDismissed, // callback
+                'Error', // title
+                'Ok' // buttonName
+            );
+        } else {
+
+            result = weight / (height * height);
+
+            result = precisionRound(result, 2);
+            resultMessage = processResultAndGetMessage(result);
+
+            var resultParagraph = document.querySelector(".result");
+            var bmi = document.querySelector("#bmiValue");
+
+            bmi.textContent = result;
+            var resultText = resultMessage.weightStatus + " - " + resultMessage.message;
+            resultParagraph.textContent = resultText;
+
+            var latestResultList = document.querySelector(".result-list");
+            var resultline = document.createElement("li");
+            resultline.textContent = "BMI:" + result + " - " + resultText;
+            latestResultList.appendChild(resultline);
+        }
+    });
+
+    function alertDismissed() {
+        console.log("Worked");
+    }
+
+    function precisionRound(number, precision) {
+        var factor = Math.pow(10, precision);
+        return Math.round(number * factor) / factor;
+    }
+
+    function processResultAndGetMessage(result) {
+        var resultMessage = {
+            weightStatus: "",
+            message: ""
+        }
+
+        if (result < 18.50) {
+            resultMessage.weightStatus = "Underweight";
+            resultMessage.message = "You should eat a little bit more";
+        } else if (result >= 18.50 && result <= 24.99) {
+            resultMessage.weightStatus = "Normal";
+            resultMessage.message = "Keep doing what you are doing";
+        } else if (result >= 25.00 && result <= 29.99) {
+            resultMessage.weightStatus = "Overweight";
+            resultMessage.message = "You should cut down on your food a little bit";
+        } else if (result >= 30.0) {
+            resultMessage.weightStatus = "Obese";
+            resultMessage.message = "You should really do something about your appetite ASAP";
+        }
+
+        return resultMessage;
+    }
+</script>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link href=bootstrap.css rel=stylesheet>
+</head>
+<body class="container">
+	<div class="row" style="margin-top: 2em;">
+		<div class="col-md-6">
+			<form>
+				<div class="form-group">
+					<label>Country: </label>
+					<input type="text" id="country" autofocus>
+				</div>
+				<div class="form-group">
+					<label>Remove: </label>
+					<input type="text" id="countryToRemove" autofocus>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-default" id="add">Add</button>
+					<button class="btn btn-default" id="remove">Remove</button>
+				</div>
+			</form>
+
+			<p>Countries:</p>
+			<ol id="displayCountries">
+			</ol>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	var countries = [];
+	document.querySelector("#remove").addEventListener("click", function (event) {
+		event.preventDefault();
+
+		var input = document.querySelector("#countryToRemove");
+		
+		var list = document.querySelector("#displayCountries");
+		list.children[input.value - 1].remove();
+		countries.splice(input.value - 1, 1);
+	});
+
+	document.querySelector("#add").addEventListener("click", function (event) {
+		event.preventDefault();
+		var input = document.querySelector("#country");
+		if (input.value	 == "") {
+			alert("It is require to inform a country!");
+			input.focus();
+			return;
+		}
+
+		countries.push(input.value);
+		
+		var list = document.querySelector("#displayCountries");
+		for (var i = list.children.length - 1; i >= 0; i--) {
+			list.children[i].remove();
+		}
+
+		countries.sort().forEach(function (country) {
+			var li = document.createElement("li");
+			li.textContent = country;
+			list.appendChild(li);	
+		});	
+
+		if (countries.length == 5) {
+			document.querySelector("button").disabled = true;
+		}
+
+		input.value = "";
+		input.focus();
+	});
+</script>
+</html>

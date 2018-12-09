@@ -1,0 +1,41 @@
+/*.center {
+	text-align: center;
+}*/
+
+.tables {
+	display: flex;
+	justify-content: center;
+}
+
+.table2, .table2 th, .table2 tr, .table2 td {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+.table2 caption {
+	font-weight: bold;
+	font-size: 1.5em;
+	padding-bottom: 1em;
+}
+
+.table2 thead th {
+	text-align: left;
+}
+
+.table2 tbody tr th {
+	text-align: left;
+	font-weight: bold;
+	background-color: white;
+}
+
+.table2 tbody td:last-child, .table2 tfoot {
+	text-align: right;
+}
+
+.table2 thead, .table2 tfoot, .table2 tbody tr:nth-child(even) {
+	background-color: #7FCDCD;
+}
+
+.table2 td, .table2 th {
+	padding: .2em .7em;
+}

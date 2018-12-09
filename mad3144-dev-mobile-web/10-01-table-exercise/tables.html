@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Exercise 01 Tables</title>
+	<link rel="stylesheet" type="text/css" href="table.css">
+</head>
+<body>
+	<div class="tables">
+		<figure>
+			<figcaption>Employee Table without CSS</figcaption>
+			<table>
+				<thead>
+					<tr>
+						<th>Department</th>
+						<th>Name</th>
+						<th>E-mail</th>
+						<th>Years of Service</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Editorial</td>
+						<td>Denis Gois</td>
+						<td>denisdwtg@gmail.com</td>
+						<td>8</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>Joel Murac</td>
+						<td>joel.murac@gmail.com</td>
+						<td>10</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>Anne Boehn</td>
+						<td>anne.boehn@gmail.com</td>
+						<td>22</td>
+					</tr>
+					<tr>
+						<td>Marketing</td>
+						<td>Zak Ruvalcaba</td>
+						<td>zak.ruvalcaba@gmail.com</td>
+						<td>15</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>Judy Taylor</td>
+						<td>judy.taylor@gmail.com</td>
+						<td>2</td>
+					</tr>
+					<tr>
+						<td>Customer Service</td>
+						<td>Alpha Romeo</td>
+						<td>alpha.romeo@gmail.com</td>
+						<td>35</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>Bravo Willian</td>
+						<td>bravo.willian@gmail.com</td>
+						<td>11</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>Charlie Seal</td>
+						<td>charlie.seal@gmail.com</td>
+						<td>25</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<th></th>
+					<th>Total Years of Service</th>
+					<th>128</th>
+				</tfoot>
+			</table>
+		</figure>
+
+		<figure>
+			<table class="table2">
+				<caption>Employee Table with CSS</caption>
+				<thead>
+					<tr>
+						<th>Department</th>
+						<th>Name</th>
+						<th>E-mail</th>
+						<th>Years of Service</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th rowspan="3">Editorial</th>
+						<td>Denis Gois</td>
+						<td>denisdwtg@gmail.com</td>
+						<td>8</td>
+					</tr>
+					<tr>
+						<td>Joel Murac</td>
+						<td>joel.murac@gmail.com</td>
+						<td>10</td>
+					</tr>
+					<tr>
+						<td>Anne Boehn</td>
+						<td>anne.boehn@gmail.com</td>
+						<td>22</td>
+					</tr>
+					<tr>
+						<th rowspan="2">Marketing</th>
+						<td>Zak Ruvalcaba</td>
+						<td>zak.ruvalcaba@gmail.com</td>
+						<td>15</td>
+					</tr>
+					<tr>
+						<td>Judy Taylor</td>
+						<td>judy.taylor@gmail.com</td>
+						<td>2</td>
+					</tr>
+					<tr>
+						<th rowspan="4">Customer Service</th>
+						<td>Alpha Romeo</td>
+						<td>alpha.romeo@gmail.com</td>
+						<td>35</td>
+					</tr>
+					<tr>
+						<td>Bravo Willian</td>
+						<td>bravo.willian@gmail.com</td>
+						<td>11</td>
+					</tr>
+					<tr>
+						<td>Charlie Seal</td>
+						<td>charlie.seal@gmail.com</td>
+						<td>25</td>
+					</tr>
+					<tr>
+						<td>Delta Virk</td>
+						<td>delta.virk@gmail.com</td>
+						<td>25</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<th colspan="3">Total Years of Service</th>
+					<th>128</th>
+				</tfoot>
+			</table>
+		</figure>
+	</div>
+</body>
+</html>

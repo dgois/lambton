@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link href=bootstrap.css rel=stylesheet>
+	<style type="text/css">
+		img {
+			width: 50%;
+			height: auto;
+		}
+
+	</style>
+</head>
+<body class="container">
+	<img id="toronto" src="images/first.jpg">
+	<button id="stop">Stop</button>
+</body>
+<script type="text/javascript">
+	var index = 0,
+		imageNames = ["first.jpg", "second.jpg", "third.jpeg", "fourth.jpeg", "fifth.jpg"],
+		timeoutID = 0;
+	window.setTimeout(changeImage, 2000);
+
+	function changeImage(argument) {
+		document.querySelector("#toronto").src = `images/${imageNames[index]}`;
+		index++;
+		if (index >= 4) {
+			index = 0;
+		}
+		timeoutID = window.setTimeout(changeImage, 2000);
+	}
+
+	document.querySelector("#stop").addEventListener("click", function (event) {
+  		window.clearTimeout(timeoutID);
+	});
+	
+</script>
+</html>
